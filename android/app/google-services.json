@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "847882197453",
+    "project_id": "vitaflowplus-96701",
+    "storage_bucket": "vitaflowplus-96701.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847882197453:android:d1e2ad83a2fbbdf9814c84",
+        "android_client_info": {
+          "package_name": "com.example.vitaflowplus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0u8UbX60ocFXIhciUEAWclWOseAynsOA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

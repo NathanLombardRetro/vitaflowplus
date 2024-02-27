@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
 import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
+import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 
 class Dashboard extends StatefulWidget {
    Dashboard({super.key});
@@ -18,13 +20,9 @@ class _MyWidgetState extends State<Dashboard> {
   final user = FirebaseAuth.instance.currentUser!;
 
   Future<DocumentSnapshot> getUserData() async {
-    if (user != null) {
-      final userUID = user.uid;
-      return await FirebaseFirestore.instance.collection('users').doc(userUID).get();
-    } else {
-      throw Exception('User is not logged in');
+    final userUID = user.uid;
+    return await FirebaseFirestore.instance.collection('users').doc(userUID).get();
     }
-  }
 
   void _showPopupMenu(BuildContext context) async {
   await showMenu(
@@ -236,7 +234,12 @@ class _MyWidgetState extends State<Dashboard> {
               icon: Icon(Icons.home),
             ),
             IconButton(
-              onPressed: () {}, // Placeholder function for workout action
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WorkoutsPage()),
+                );
+              },
               icon: Icon(Icons.fitness_center),
             ),
             IconButton(
@@ -249,7 +252,12 @@ class _MyWidgetState extends State<Dashboard> {
               icon: Icon(Icons.favorite),
             ),
             IconButton(
-              onPressed: () {}, // Placeholder function for glucose level action
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SleepWaterPage()),
+                );
+              },
               icon: Icon(Icons.local_hospital),
             ),
           ],

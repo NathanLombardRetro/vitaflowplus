@@ -75,7 +75,6 @@ class _DeviceScannerPageState extends State<DeviceScannerPage> {
                 print('Insulin Dose: $insulinDose');
                 print('Insulin Type: $insulinType');
 
-                // Clear the form fields
                 bloodSugarController.clear();
                 lastMealController.clear();
                 insulinDoseController.clear();

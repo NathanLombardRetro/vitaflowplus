@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:uuid/uuid.dart';
 
 class AddWorkoutPage extends StatefulWidget{
   AddWorkoutPage({super.key});
@@ -12,14 +12,11 @@ class AddWorkoutPage extends StatefulWidget{
 
 class _MyAddWorkoutState extends State<AddWorkoutPage>
 {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _phoneNumController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-
-
+  final TextEditingController _workoutNameController = TextEditingController();
+  final TextEditingController _timeTrainedController = TextEditingController();
+  final TextEditingController _workoutDescriptionController = TextEditingController();
+  final TextEditingController _exercisesController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Add this line
   final user = FirebaseAuth.instance.currentUser!;
 
   Future<DocumentSnapshot> getUserData() async {
@@ -27,59 +24,162 @@ class _MyAddWorkoutState extends State<AddWorkoutPage>
     return await FirebaseFirestore.instance.collection('users').doc(userUID).get();
     }
 
+    Future<void> _addWorkout() async {
+  try {
+    // Get user ID
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    // Get workout details from text controllers
+    String workoutName = _workoutNameController.text;
+    String timeTrained = _timeTrainedController.text;
+    String workoutDescription = _workoutDescriptionController.text;
+    List<String> exercises = _exercisesController.text.split(',');
+
+    // Generate a random GUID as the workout ID
+    String workoutId = Uuid().v4(); // Generate a random UUID
+
+    // Add workout to Firestore with custom ID
+    await FirebaseFirestore.instance.collection('workouts').doc(workoutId).set({
+      'userId': userId,
+      'workoutName': workoutName,
+      'timeTrained': timeTrained,
+      'workoutDescription': workoutDescription,
+      'exercises': exercises,
+      'date': DateTime.now(), // Include the current date and time
+    });
+
+    print('Workout added successfully');
+    Navigator.pop(context); // Navigate back after adding workout
+  } catch (e) {
+    print('Failed to add workout: $e');
+    // Handle errors, such as Firebase Firestore exceptions
+  }
+}
+
+
     @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/default.png'), // Placeholder image
-            radius: 16,
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      leading: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: CircleAvatar(
+          backgroundImage: AssetImage('assets/default.png'), // Placeholder image
+          radius: 16,
+        ),
+      ),
+      title: FutureBuilder<DocumentSnapshot>(
+        future: getUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text('Loading...');
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final userData = snapshot.data!.data() as Map<String, dynamic>;
+            final firstName = userData['firstName'];
+            final lastName = userData['lastName'];
+            return Text('$firstName $lastName');
+          }
+        },
+      ),
+      actions: [
+        PopupMenuButton(
+          icon: Icon(Icons.settings),
+          itemBuilder: (context) => [
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+                onTap: () {
+                  // Add functionality for settings
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            PopupMenuItem(
+              child: ListTile(
+                leading: Icon(Icons.logout),
+                title: Text('Logout'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+    body: Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Add Workout',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-        ),
-        title: FutureBuilder<DocumentSnapshot>(
-          future: getUserData(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Text('Loading...');
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              final userData = snapshot.data!.data() as Map<String, dynamic>;
-              final firstName = userData['firstName'];
-              final lastName = userData['lastName'];
-              return Text('$firstName $lastName');
-            }
-          },
-        ),
-        actions: [
-          PopupMenuButton(
-            icon: Icon(Icons.settings),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Settings'),
-                  onTap: () {
-                    // Add functionality for settings
-                    Navigator.pop(context);
+          SizedBox(height: 20),
+          Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: _workoutNameController,
+                  decoration: InputDecoration(labelText: 'Workout Name'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a workout name';
+                    }
+                    return null;
                   },
                 ),
-              ),
-              PopupMenuItem(
-                child: ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout'),
-                  onTap: () {
-                    Navigator.pop(context);
+                TextFormField(
+                  controller: _timeTrainedController,
+                  decoration: InputDecoration(labelText: 'Time Trained'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the time trained';
+                    }
+                    return null;
                   },
                 ),
-              ),
-            ],
+                TextFormField(
+                  controller: _workoutDescriptionController,
+                  decoration: InputDecoration(labelText: 'Workout Description'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a workout description';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _exercisesController,
+                  decoration: InputDecoration(labelText: 'Exercises (comma-separated)'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter at least one exercise';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _addWorkout();
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

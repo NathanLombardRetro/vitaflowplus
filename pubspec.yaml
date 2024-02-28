@@ -15,6 +15,7 @@ dependencies:
   cloud_firestore: ^4.15.3
   flutter_blue_plus: ^1.31.13
   chart_sparkline: ^1.0.15+1
+  flutter_guid: ^0.3.1
 
 dev_dependencies:
   flutter_test:

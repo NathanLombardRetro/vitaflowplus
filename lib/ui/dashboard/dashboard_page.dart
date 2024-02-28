@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
-import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 
 class Dashboard extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
 import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
@@ -246,7 +247,7 @@ class _MyWidgetState extends State<Dashboard> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DeviceScannerPage()),
+                  MaterialPageRoute(builder: (context) => GraphPage()),
                 );
               },
               icon: Icon(Icons.favorite),

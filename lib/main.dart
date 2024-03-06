@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         AppTheme.dark(),
       ],
       child: MaterialApp(
-        title: 'Your App Title',
+        title: 'VitaFlow+',
         home: AuthPage(),
       ),
     );

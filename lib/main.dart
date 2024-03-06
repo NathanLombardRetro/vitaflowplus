@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/firebase_options.dart';
 import 'package:vitaflowplus/ui/login/auth_page.dart';
 //import 'package:vitaflowplus/ui/login/login_page.dart'; // Importing the LoginPage class from login_page.dart
@@ -20,8 +21,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: AuthPage(),
+    return ThemeProvider(
+      saveThemesOnChange: true,
+      loadThemeOnInit: true,
+      themes: [
+        AppTheme.light(),
+        AppTheme.dark(),
+      ],
+      child: MaterialApp(
+        title: 'Your App Title',
+        home: AuthPage(),
+      ),
     );
   }
 }

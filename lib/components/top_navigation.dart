@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/ui/login/auth_page.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -42,6 +43,16 @@ class CustomAppBar extends StatelessWidget {
                 },
               ),
             ),
+            PopupMenuItem(
+        child: ListTile(
+          leading: Icon(Icons.brightness_6), // Icon for theme switcher
+          title: Text('Switch Theme'), // Text for theme switcher
+          onTap: () {
+            ThemeProvider.controllerOf(context).nextTheme(); // Switch theme
+            Navigator.pop(context); // Close popup menu
+          },
+        ),
+      ),
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.logout),

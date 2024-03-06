@@ -1,20 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/models/workout_model.dart';
 import 'package:vitaflowplus/ui/workouts/addWorkout/addWorkout.dart';
-
-class Workout {
-  final String name;
-  final String description;
-  final String timeTrained;
-  final List<String> exercises;
-
-  Workout({
-    required this.name,
-    required this.description,
-    required this.timeTrained,
-    required this.exercises,
-  });
-}
-
 
 class WorkoutsPage extends StatefulWidget {
   @override
@@ -23,81 +11,90 @@ class WorkoutsPage extends StatefulWidget {
 
 
 class _WorkoutsPageState extends State<WorkoutsPage> {
-  // Example list of workouts
-  List<Workout> workouts = [
-    Workout(
-      name: "Workout 1",
-      description: "This was a full-body workout.",
-      timeTrained: "45 minutes",
-      exercises: ["Push-ups", "Squats", "Lunges", "Planks"],
-    ),
-    Workout(
-      name: "Workout 2",
-      description: "Focused on upper body strength.",
-      timeTrained: "60 minutes",
-      exercises: ["Push-ups", "Pull-ups", "Bench press"],
-    ),
-    Workout(
-      name: "Workout 3",
-      description: "Leg day!",
-      timeTrained: "50 minutes",
-      exercises: ["Squats", "Deadlifts", "Leg press"],
-    ),
-    Workout(
-      name: "Workout 4",
-      description: "Core workout.",
-      timeTrained: "40 minutes",
-      exercises: ["Planks", "Crunches", "Russian twists"],
-    ),
-    // Add more workouts as needed
-  ];
+  List<Workout> workouts = [];
+  final user = FirebaseAuth.instance.currentUser!;
 
-  // Method to navigate to the workout stats page
+  Future<List<Workout>> fetchWorkouts(String userId) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('workouts')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    List<Workout> fetchedWorkouts = querySnapshot.docs.map((doc) {
+      return Workout(
+        workoutName: doc['workoutName'],
+        workoutDescription: doc['workoutDescription'],
+        timeTrained: doc['timeTrained'],
+        exercises: List<String>.from(doc['exercises']),
+        userId: doc['userId'],
+        date: doc['date'].toDate(),
+      );
+    }).toList();
+
+    return fetchedWorkouts;
+  } catch (error) {
+    print("Error fetching workouts: $error");
+    throw error;
+  }
+}
+
   void _viewStats(Workout workout) {
-    // Replace this with navigation to the stats page
-    print("Viewing stats for ${workout.name}");
+    print("Viewing stats for ${workout.workoutName}");
   }
 
-  // Method to navigate to the upload workout page
   void _uploadWorkout() {
-    // Replace this with navigation to the upload workout page
     print("Navigating to upload workout page");
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Workouts"),
       ),
-      body: ListView.builder(
-        itemCount: workouts.length,
-        itemBuilder: (BuildContext context, int index) {
-          final workout = workouts[index];
-          return Card(
-            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: ListTile(
-              title: Text(workout.name),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Time Trained: ${workout.timeTrained}"),
-                  Text("Description: ${workout.description}"),
-                  Text("Exercises: ${workout.exercises.join(", ")}"),
-                ],
-              ),
-              onTap: () => _viewStats(workout),
-            ),
-          );
+      body: FutureBuilder<List<Workout>>(
+        future: fetchWorkouts(user.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final workouts = snapshot.data!;
+            return ListView.builder(
+              itemCount: workouts.length,
+              itemBuilder: (BuildContext context, int index) {
+                final workout = workouts[index];
+                return Card(
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    title: Text(workout.workoutName),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Time Trained: ${workout.timeTrained}"),
+                        Text("workoutDescription: ${workout.workoutDescription}"),
+                        Text("Exercises: ${workout.exercises.join(", ")}"),
+                      ],
+                    ),
+                    onTap: () {
+                      // Handle tap on workout
+                    },
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AddWorkoutPage()),
-                );
-              },
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddWorkoutPage()),
+          );
+        },
         child: Icon(Icons.add),
       ),
     );

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/components/bottom_navigation.dart';
+import 'package:vitaflowplus/components/top_navigation.dart';
+import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
+import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
+import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 
 class SleepWaterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sleep & Water"),
-      ),
+      appBar: PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: CustomAppBar(),
+    ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -53,6 +59,23 @@ class SleepWaterPage extends StatelessWidget {
             Text("Average Water Intake"),
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: 3,
+        onTabSelected: (index) {
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+          }
+          if (index == 1) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => WorkoutsPage()));
+          }
+          if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GraphPage()));
+          }
+          if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SleepWaterPage()));
+          }
+        },
       ),
     );
   }

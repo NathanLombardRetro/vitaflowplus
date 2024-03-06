@@ -14,105 +14,104 @@ class _LoginPageState extends State<LoginPage> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    body: Container(
-      color: Color(0xFFF1F1EF),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Add logo here
-            Image.asset(
-              'assets/vitaflow.png', // Replace 'logo.png' with your actual logo asset path
-              width: 300,
-              height: 300,
+    resizeToAvoidBottomInset: false, // Add this line
+    backgroundColor: Color(0xFFF1F1EF), // Set background color here
+    body: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Add logo here
+          Image.asset(
+            'assets/vitaflow.png', // Replace 'logo.png' with your actual logo asset path
+            width: 300,
+            height: 300,
+          ),
+          SizedBox(height: 16.0),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 2.0),
+            child: Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 30, // Increased font size
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF26547C),
+              ),
             ),
-            SizedBox(height: 16.0),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 2.0),
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 30, // Increased font size
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547C),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                    ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
                   ),
-                  SizedBox(height: 16.0),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      _login();
-                    },
-                    child: Text('Sign in'),
-                  ),
-                  SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          // Implement forgot password functionality
-                        },
-                        child: Text(
-                          'Forgot password?',
-                          style: TextStyle(color: Colors.black),
-                        ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    _login();
+                  },
+                  child: Text('Sign in'),
+                ),
+                SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Implement forgot password functionality
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style: TextStyle(color: Colors.black),
                       ),
-                      SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: () {
-                          // Implement registration functionality
-                        },
-                        child: Text(
-                          'Reset password',
-                          style: TextStyle(color: Color(0xFF26547C)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Text(
-                    'Don\'t have an account? ',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()),
-                      );
-                    },
-                    child: Text(
-                      'Sign up',
-                      style: TextStyle(fontSize: 16, color: Color(0xFF26547C)),
                     ),
+                    SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        // Implement registration functionality
+                      },
+                      child: Text(
+                        'Reset password',
+                        style: TextStyle(color: Color(0xFF26547C)),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Don\'t have an account? ',
+                  style: TextStyle(fontSize: 16),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()),
+                    );
+                  },
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(fontSize: 16, color: Color(0xFF26547C)),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
   );

@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/components/bottom_navigation.dart';
+import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/models/workout_model.dart';
+import 'package:vitaflowplus/services/firebaseFunctions.dart';
+import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
+import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
+import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
 import 'package:vitaflowplus/ui/workouts/addWorkout/addWorkout.dart';
 
 class WorkoutsPage extends StatefulWidget {
@@ -11,33 +17,7 @@ class WorkoutsPage extends StatefulWidget {
 
 
 class _WorkoutsPageState extends State<WorkoutsPage> {
-  List<Workout> workouts = [];
   final user = FirebaseAuth.instance.currentUser!;
-
-  Future<List<Workout>> fetchWorkouts(String userId) async {
-  try {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('workouts')
-        .where('userId', isEqualTo: userId)
-        .get();
-
-    List<Workout> fetchedWorkouts = querySnapshot.docs.map((doc) {
-      return Workout(
-        workoutName: doc['workoutName'],
-        workoutDescription: doc['workoutDescription'],
-        timeTrained: doc['timeTrained'],
-        exercises: List<String>.from(doc['exercises']),
-        userId: doc['userId'],
-        date: doc['date'].toDate(),
-      );
-    }).toList();
-
-    return fetchedWorkouts;
-  } catch (error) {
-    print("Error fetching workouts: $error");
-    throw error;
-  }
-}
 
   void _viewStats(Workout workout) {
     print("Viewing stats for ${workout.workoutName}");
@@ -50,11 +30,12 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Workouts"),
-      ),
+      appBar: PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: CustomAppBar(),
+    ),
       body: FutureBuilder<List<Workout>>(
-        future: fetchWorkouts(user.uid),
+        future: FirebaseFunctions.fetchLatestWorkouts(user.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -67,20 +48,25 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
               itemBuilder: (BuildContext context, int index) {
                 final workout = workouts[index];
                 return Card(
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  margin: EdgeInsets.all(10),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                   child: ListTile(
-                    title: Text(workout.workoutName),
+                    title: Text(
+                      workout.workoutName,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Time Trained: ${workout.timeTrained}"),
-                        Text("workoutDescription: ${workout.workoutDescription}"),
-                        Text("Exercises: ${workout.exercises.join(", ")}"),
+                        Text("Time Trained: ${workout.timeTrained}", style: TextStyle(fontSize: 16)),
+                        Text("Description: ${workout.workoutDescription}", style: TextStyle(fontSize: 16)),
+                        Text("Exercises: ${workout.exercises.join(", ")}", style: TextStyle(fontSize: 16)),
                       ],
                     ),
-                    onTap: () {
-                      // Handle tap on workout
-                    },
+                    onTap: () => _viewStats(workout),
                   ),
                 );
               },
@@ -96,6 +82,20 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
           );
         },
         child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: 1,
+        onTabSelected: (index) {
+          if (index == 0) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Dashboard()));
+          }
+          if (index == 2) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => GraphPage()));
+          }
+          if (index == 3) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SleepWaterPage()));
+          }
+        },
       ),
     );
   }

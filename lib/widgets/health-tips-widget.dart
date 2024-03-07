@@ -36,19 +36,30 @@ class _HealthTipsWidgetState extends State<HealthTipsWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+Widget build(BuildContext context) {
+  return Center( // Center the container vertically and horizontally
+    child: Container(
       height: 100,
-      child: PageView.builder(
-        itemCount: healthTips.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.lightbulb),
-            iconColor: Colors.yellow,
-            title: Text(healthTips[currentIndex]),
-          );
-        },
+      decoration: BoxDecoration(
+        color: Color(0xFF26547C), // Set background color to blue
+        borderRadius: BorderRadius.circular(15), // Set border radius to 15
       ),
-    );
-  }
+      child: Center( // Center the content vertically
+        child: PageView.builder(
+          itemCount: healthTips.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              leading: Icon(Icons.lightbulb),
+              iconColor: Colors.yellow,
+              title: Text(
+                healthTips[currentIndex],
+                style: TextStyle(color: Color(0xFFF1F1EF)), // Set text color to white
+              ),
+            );
+          },
+        ),
+      ),
+    ),
+  );
+}
 }

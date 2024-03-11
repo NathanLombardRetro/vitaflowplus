@@ -44,33 +44,33 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
           } else {
             final workouts = snapshot.data!;
             return ListView.builder(
-              itemCount: workouts.length,
-              itemBuilder: (BuildContext context, int index) {
-                final workout = workouts[index];
-                return Card(
-                  margin: EdgeInsets.all(10),
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      workout.workoutName,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Time Trained: ${workout.timeTrained}", style: TextStyle(fontSize: 16)),
-                        Text("Description: ${workout.workoutDescription}", style: TextStyle(fontSize: 16)),
-                        Text("Exercises: ${workout.exercises.join(", ")}", style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                    onTap: () => _viewStats(workout),
-                  ),
-                );
-              },
-            );
+  itemCount: workouts.length,
+  itemBuilder: (BuildContext context, int index) {
+    final workout = workouts.reversed.toList()[index];
+    return Card(
+      margin: EdgeInsets.all(10),
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ListTile(
+        title: Text(
+          workout.workoutName,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Time Trained: ${workout.timeTrained}", style: TextStyle(fontSize: 16)),
+            Text("Description: ${workout.workoutDescription}", style: TextStyle(fontSize: 16)),
+            Text("Exercises: ${workout.exercises.join(", ")}", style: TextStyle(fontSize: 16)),
+          ],
+        ),
+        onTap: () => _viewStats(workout),
+      ),
+    );
+  },
+);
           }
         },
       ),

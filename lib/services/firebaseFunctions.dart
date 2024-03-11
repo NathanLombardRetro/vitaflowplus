@@ -111,4 +111,32 @@ static Future<List<Workout>> fetchLatestWorkouts(String userId) async {
   }
 }
 
+static Future<List<Workout>> fetchLatestWorkout(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('workouts')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      List<Workout> fetchedWorkouts = querySnapshot.docs.map((doc) {
+        return Workout(
+          workoutName: doc['workoutName'],
+          workoutDescription: doc['workoutDescription'],
+          timeTrained: doc['timeTrained'],
+          exercises: List<String>.from(doc['exercises']),
+          userId: doc['userId'],
+          date: doc['date'].toDate(),
+        );
+      }).toList();
+      fetchedWorkouts.sort((a, b) => a.date.compareTo(b.date));
+      List<Workout> lastFourWorkouts =
+          fetchedWorkouts.sublist(fetchedWorkouts.length - 1);
+
+      return lastFourWorkouts;
+    } catch (error) {
+      print("Error fetching workouts: $error");
+      throw error;
+    }
+  }
+
 }

@@ -24,6 +24,7 @@ class _MyWidgetState extends State<Dashboard> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
+    backgroundColor: Color.fromARGB(255, 253, 253, 252),
     appBar: PreferredSize(
       preferredSize: Size.fromHeight(kToolbarHeight),
       child: CustomAppBar(),

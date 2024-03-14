@@ -8,6 +8,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Color(0xFF26547C),
       leading: Padding(
         padding: EdgeInsets.all(8.0),
         child: CircleAvatar(
@@ -26,13 +27,13 @@ class CustomAppBar extends StatelessWidget {
             final userData = snapshot.data!.data() as Map<String, dynamic>;
             final firstName = userData['firstName'];
             final lastName = userData['lastName'];
-            return Text('$firstName $lastName');
+            return Text('$firstName $lastName', style: TextStyle(color: Color.fromARGB(255, 253, 253, 252)));
           }
         },
       ),
       actions: [
         PopupMenuButton(
-          icon: Icon(Icons.settings),
+          icon: Icon(Icons.settings, color: Color.fromARGB(255, 253, 253, 252)),
           itemBuilder: (context) => [
             PopupMenuItem(
               child: ListTile(

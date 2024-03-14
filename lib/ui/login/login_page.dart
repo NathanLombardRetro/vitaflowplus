@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
 Widget build(BuildContext context) {
   return Scaffold(
     resizeToAvoidBottomInset: false, // Add this line
-    backgroundColor: Color(0xFFF1F1EF), // Set background color here
+    backgroundColor: Color.fromARGB(255, 253, 253, 252), // Set background color here
     body: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

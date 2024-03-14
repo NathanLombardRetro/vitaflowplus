@@ -17,6 +17,7 @@ dependencies:
   chart_sparkline: ^1.0.15+1
   flutter_guid: ^0.3.1
   theme_provider: ^0.6.0
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:

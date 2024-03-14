@@ -7,15 +7,22 @@ import 'package:vitaflowplus/models/sugar_model.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
+import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
+import 'package:vitaflowplus/widgets/metric-tile-widget.dart';
 
+class GraphPage extends StatefulWidget {
+  @override
+  _GraphPageState createState() => _GraphPageState();
+}
 
-class GraphPage extends StatelessWidget {
+class _GraphPageState extends State<GraphPage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 253, 253, 252),
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
@@ -35,63 +42,57 @@ class GraphPage extends StatelessWidget {
                   .toList();
 
               // Placeholder values for additional metrics
-              double averageInsulin = 15.0; // Example average insulin dosage
-              String mostCommonMood = "Happy"; // Example most common mood
-              double averageSugarLevel = 5.5; // Example average sugar level
-              String lastMeal = "Chicken salad"; // Example last meal
+              Map<String, dynamic> metrics = {
+                'Average Insulin Dosage': 15.0,
+                'Most Common Mood': 'Happy',
+                'Average Sugar Level': 5.5,
+                'Last Meal': 'Chicken salad',
+              };
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
-                    "Current Trend in Your Sugar Levels",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20.0),
+                    child: Text(
+                      "Diabetic trends",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  SizedBox(height: 20),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.all(10.0),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Color(0xFF26547C)),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 253, 253, 252)),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Sparkline(
                         data: data,
-                        lineColor: Color(0xFF26547C).withOpacity(0.8),
+                        lineColor: Color(0xFF26547C),
                         lineWidth: 3.0,
                         fillMode: FillMode.below,
-                        fillColor: Color(0xFF26547C).withOpacity(0.3),
+                        fillColor: Color(0xFF26547C).withOpacity(0.1),
                         pointsMode: PointsMode.all,
                         pointColor: Color(0xFF26547C),
                         pointSize: 8.0,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                  ListTile(
-                    leading: Icon(Icons.local_hospital, color: Color(0xFF26547C)),
-                    title: Text("Average Insulin Dosage: $averageInsulin",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.mood, color: Color(0xFF26547C)),
-                    title: Text("Most Common Mood: $mostCommonMood",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.local_dining, color: Color(0xFF26547C)),
-                    title: Text("Average Sugar Level: $averageSugarLevel",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.fastfood, color: Color(0xFF26547C)),
-                    title: Text("Last Meal: $lastMeal",
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  SizedBox(height: 0),
+                  Column(
+                    children: metrics.entries.map((entry) {
+                      return Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 16.0), // Add space here
+                        child: MetricTile(
+                          label: entry.key,
+                          value: entry.value.toString(),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ],
               );
@@ -103,7 +104,7 @@ class GraphPage extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => WorkoutsPage()),
+            MaterialPageRoute(builder: (context) => DeviceScannerPage()),
           );
         },
         child: Icon(Icons.add),

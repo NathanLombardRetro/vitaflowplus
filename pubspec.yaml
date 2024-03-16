@@ -16,6 +16,10 @@ dependencies:
   flutter_blue_plus: ^1.31.13
   chart_sparkline: ^1.0.15+1
   flutter_guid: ^0.3.1
+  theme_provider: ^0.6.0
+  fl_chart: ^0.66.2
+  intl: ^0.17.0
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

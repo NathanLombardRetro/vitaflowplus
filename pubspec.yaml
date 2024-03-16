@@ -18,6 +18,7 @@ dependencies:
   flutter_guid: ^0.3.1
   theme_provider: ^0.6.0
   fl_chart: ^0.66.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

@@ -27,7 +27,8 @@ class CustomAppBar extends StatelessWidget {
             final userData = snapshot.data!.data() as Map<String, dynamic>;
             final firstName = userData['firstName'];
             final lastName = userData['lastName'];
-            return Text('$firstName $lastName', style: TextStyle(color: Color.fromARGB(255, 253, 253, 252)));
+            return Text('$firstName $lastName',
+                style: TextStyle(color: Color.fromARGB(255, 253, 253, 252)));
           }
         },
       ),
@@ -45,22 +46,24 @@ class CustomAppBar extends StatelessWidget {
               ),
             ),
             PopupMenuItem(
-        child: ListTile(
-          leading: Icon(Icons.brightness_6), // Icon for theme switcher
-          title: Text('Switch Theme'), // Text for theme switcher
-          onTap: () {
-            ThemeProvider.controllerOf(context).nextTheme(); // Switch theme
-            Navigator.pop(context); // Close popup menu
-          },
-        ),
-      ),
+              child: ListTile(
+                leading: Icon(Icons.brightness_6), // Icon for theme switcher
+                title: Text('Switch Theme'), // Text for theme switcher
+                onTap: () {
+                  ThemeProvider.controllerOf(context)
+                      .nextTheme(); // Switch theme
+                  Navigator.pop(context); // Close popup menu
+                },
+              ),
+            ),
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Logout'),
                 onTap: () {
                   signUserOut();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AuthPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AuthPage()));
                 },
               ),
             ),
@@ -77,6 +80,9 @@ class CustomAppBar extends StatelessWidget {
   Future<DocumentSnapshot> getUserData() async {
     final user = FirebaseAuth.instance.currentUser!;
     final userUID = user.uid;
-    return await FirebaseFirestore.instance.collection('users').doc(userUID).get();
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userUID)
+        .get();
   }
 }

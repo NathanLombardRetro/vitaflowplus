@@ -61,6 +61,14 @@ class _GraphPageState extends State<GraphPage> {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  Padding(
+                        padding:
+                            EdgeInsets.only(bottom: 8.0), // Add space here
+                        child: MetricTile(
+                          label: "Sugar level graph",
+                          value: "",
+                        ),
+                      ),
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.all(10.0),
@@ -81,7 +89,7 @@ class _GraphPageState extends State<GraphPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 0),
+                  SizedBox(height: 15),
                   Column(
                     children: metrics.entries.map((entry) {
                       return Padding(
@@ -107,8 +115,18 @@ class _GraphPageState extends State<GraphPage> {
             MaterialPageRoute(builder: (context) => DeviceScannerPage()),
           );
         },
-        child: Icon(Icons.add),
+        backgroundColor:
+            Color.fromARGB(255, 253, 253, 252), // Change the background color
+        foregroundColor: Color(0xFF26547C), // Change the color of the icon
+        elevation: 4, // Change the elevation (shadow)
+        shape: RoundedRectangleBorder(
+          // Change the shape of the button
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: Color(0xFF26547C), width: 1),
+        ),
+        child: Icon(Icons.add), // Icon to display inside the button
       ),
+
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: 2,
         onTabSelected: (index) {

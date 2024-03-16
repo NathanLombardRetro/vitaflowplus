@@ -38,7 +38,7 @@ class _HealthTipsWidgetState extends State<HealthTipsWidget> {
   @override
 Widget build(BuildContext context) {
   return Container(
-    height: 100,
+    height: 65,
     alignment: Alignment.center,
     decoration: BoxDecoration(
       color: Color(0xFF26547C), // Set background color to blue

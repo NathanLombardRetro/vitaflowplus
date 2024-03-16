@@ -13,7 +13,7 @@ class MetricTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: Color(0xFF26547C),
@@ -23,11 +23,12 @@ class MetricTile extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 253, 253, 252)),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 253, 253, 252)),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 18, color: Color.fromARGB(255, 253, 253, 252)),
+            style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 253, 253, 252)
+                                          .withOpacity(0.9)),
           ),
         ],
       ),

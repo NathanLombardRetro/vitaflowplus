@@ -16,7 +16,7 @@ class _MyAddWorkoutState extends State<AddWorkoutPage>
   final TextEditingController _timeTrainedController = TextEditingController();
   final TextEditingController _workoutDescriptionController = TextEditingController();
   final TextEditingController _exercisesController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Add this line
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser!;
 
   Future<DocumentSnapshot> getUserData() async {
@@ -29,30 +29,26 @@ class _MyAddWorkoutState extends State<AddWorkoutPage>
     // Get user ID
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    // Get workout details from text controllers
     String workoutName = _workoutNameController.text;
     String timeTrained = _timeTrainedController.text;
     String workoutDescription = _workoutDescriptionController.text;
     List<String> exercises = _exercisesController.text.split(',');
 
-    // Generate a random GUID as the workout ID
-    String workoutId = Uuid().v4(); // Generate a random UUID
+    String workoutId = Uuid().v4();
 
-    // Add workout to Firestore with custom ID
     await FirebaseFirestore.instance.collection('workouts').doc(workoutId).set({
       'userId': userId,
       'workoutName': workoutName,
       'timeTrained': timeTrained,
       'workoutDescription': workoutDescription,
       'exercises': exercises,
-      'date': DateTime.now(), // Include the current date and time
+      'date': DateTime.now(),
     });
 
     print('Workout added successfully');
-    Navigator.pop(context); // Navigate back after adding workout
+    Navigator.pop(context);
   } catch (e) {
     print('Failed to add workout: $e');
-    // Handle errors, such as Firebase Firestore exceptions
   }
 }
 
@@ -64,7 +60,7 @@ Widget build(BuildContext context) {
       leading: Padding(
         padding: EdgeInsets.all(8.0),
         child: CircleAvatar(
-          backgroundImage: AssetImage('assets/default.png'), // Placeholder image
+          backgroundImage: AssetImage('assets/default.png'),
           radius: 16,
         ),
       ),
@@ -92,7 +88,6 @@ Widget build(BuildContext context) {
                 leading: Icon(Icons.settings),
                 title: Text('Settings'),
                 onTap: () {
-                  // Add functionality for settings
                   Navigator.pop(context);
                 },
               ),

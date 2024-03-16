@@ -127,7 +127,7 @@ class _MyWidgetState extends State<Dashboard> {
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "Placeholder Value", // Replace with actual water intake value
+                              "Placeholder Value",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -191,7 +191,7 @@ class _MyWidgetState extends State<Dashboard> {
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "Placeholder Value", // Replace with actual sleep time value
+                              "Placeholder Value",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -202,7 +202,7 @@ class _MyWidgetState extends State<Dashboard> {
                 ],
               ),
               SizedBox(height: 15),
-              WeatherWidget(), // Add WeatherWidget here
+              WeatherWidget(),
             ],
           ),
         ],

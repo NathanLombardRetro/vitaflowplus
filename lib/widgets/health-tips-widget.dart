@@ -41,10 +41,10 @@ Widget build(BuildContext context) {
     height: 65,
     alignment: Alignment.center,
     decoration: BoxDecoration(
-      color: Color(0xFF26547C), // Set background color to blue
-      borderRadius: BorderRadius.circular(15), // Set border radius to 15
+      color: Color(0xFF26547C),
+      borderRadius: BorderRadius.circular(15),
     ),
-    child: Center( // Center the content vertically
+    child: Center( 
       child: PageView.builder(
         itemCount: healthTips.length,
         itemBuilder: (context, index) {
@@ -53,7 +53,7 @@ Widget build(BuildContext context) {
             iconColor: Colors.yellow,
             title: Text(
               healthTips[currentIndex],
-              style: TextStyle(color: Color(0xFFF1F1EF)), // Set text color to white
+              style: TextStyle(color: Color(0xFFF1F1EF)),
             ),
           );
         },

@@ -13,7 +13,6 @@ class Routes {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => Dashboard());     
-      // Add more routes here if needed
       default:
         return MaterialPageRoute(builder: (_) => Scaffold(body: Center(child: Text('No route defined for ${settings.name}'))));
     }

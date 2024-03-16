@@ -29,7 +29,6 @@ class SleepWaterPage extends StatelessWidget {
                 Text("Latest Sleep for the Week"),
                 ElevatedButton(
                   onPressed: () {
-                    // Navigate to add sleep page
                   },
                   child: Text("Add Sleep"),
                 ),
@@ -49,7 +48,6 @@ class SleepWaterPage extends StatelessWidget {
                 Text("Water Intake for the Week"),
                 ElevatedButton(
                   onPressed: () {
-                    // Navigate to add water intake page
                   },
                   child: Text("Add Water Intake"),
                 ),

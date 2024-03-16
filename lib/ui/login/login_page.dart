@@ -14,8 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
 Widget build(BuildContext context) {
   return Scaffold(
-    resizeToAvoidBottomInset: false, // Add this line
-    backgroundColor: Color.fromARGB(255, 253, 253, 252), // Set background color here
+    resizeToAvoidBottomInset: false,
+    backgroundColor: Color.fromARGB(255, 253, 253, 252),
     body: SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -23,7 +23,7 @@ Widget build(BuildContext context) {
         children: [
           // Add logo here
           Image.asset(
-            'assets/vitaflow.png', // Replace 'logo.png' with your actual logo asset path
+            'assets/vitaflow.png', 
             width: 300,
             height: 300,
           ),
@@ -33,7 +33,7 @@ Widget build(BuildContext context) {
             child: Text(
               'Login',
               style: TextStyle(
-                fontSize: 30, // Increased font size
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF26547C),
               ),
@@ -72,7 +72,7 @@ Widget build(BuildContext context) {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Implement forgot password functionality
+                        
                       },
                       child: Text(
                         'Forgot password?',
@@ -82,7 +82,7 @@ Widget build(BuildContext context) {
                     SizedBox(width: 20),
                     GestureDetector(
                       onTap: () {
-                        // Implement registration functionality
+                        
                       },
                       child: Text(
                         'Reset password',
@@ -136,7 +136,6 @@ Widget build(BuildContext context) {
       
       if(e.code != '')
       {
-        //wrongEmailMessage();
         wrongEmailMessage();
       }
     }

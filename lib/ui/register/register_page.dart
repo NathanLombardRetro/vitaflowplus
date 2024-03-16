@@ -22,8 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
         email: _emailController.text,
         password: _passwordController.text,
       );
-
-      // Store additional user information in Firestore
+      
       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'email': _emailController.text,
         'firstName': _firstNameController.text,
@@ -35,10 +34,8 @@ class _RegisterPageState extends State<RegisterPage> {
       print('User registered: ${userCredential.user!.uid}');
       FirebaseAuth.instance.signOut();
       Navigator.pop(context);
-      // Navigate to the dashboard or another screen after registration
     } catch (e) {
       print('Failed to register: $e');
-      // Handle registration errors, such as invalid email or weak password
     }
   }
 

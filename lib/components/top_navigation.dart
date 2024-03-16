@@ -47,12 +47,12 @@ class CustomAppBar extends StatelessWidget {
             ),
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.brightness_6), // Icon for theme switcher
-                title: Text('Switch Theme'), // Text for theme switcher
+                leading: Icon(Icons.brightness_6),
+                title: Text('Switch Theme'),
                 onTap: () {
                   ThemeProvider.controllerOf(context)
-                      .nextTheme(); // Switch theme
-                  Navigator.pop(context); // Close popup menu
+                      .nextTheme();
+                  Navigator.pop(context);
                 },
               ),
             ),

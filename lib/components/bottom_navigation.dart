@@ -13,9 +13,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           IconButton(
-            onPressed: () => onTabSelected(0), // Placeholder function for home action
+            onPressed: () => onTabSelected(0),
             icon: Icon(Icons.home),
-            color: selectedIndex == 0 ? Color(0xFF26547C) : Color(0xFF26547C).withOpacity(0.4), // Highlight the selected tab
+            color: selectedIndex == 0 ? Color(0xFF26547C) : Color(0xFF26547C).withOpacity(0.4),
           ),
           IconButton(
             onPressed: () => onTabSelected(1),

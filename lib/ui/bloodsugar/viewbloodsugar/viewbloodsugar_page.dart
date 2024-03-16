@@ -41,7 +41,6 @@ class _GraphPageState extends State<GraphPage> {
                   .map((sugar) => double.parse(sugar.bloodSugar))
                   .toList();
 
-              // Placeholder values for additional metrics
               Map<String, dynamic> metrics = {
                 'Average Insulin Dosage': 15.0,
                 'Most Common Mood': 'Happy',
@@ -63,7 +62,7 @@ class _GraphPageState extends State<GraphPage> {
                   ),
                   Padding(
                         padding:
-                            EdgeInsets.only(bottom: 8.0), // Add space here
+                            EdgeInsets.only(bottom: 8.0),
                         child: MetricTile(
                           label: "Sugar level graph",
                           value: "",
@@ -94,7 +93,7 @@ class _GraphPageState extends State<GraphPage> {
                     children: metrics.entries.map((entry) {
                       return Padding(
                         padding:
-                            EdgeInsets.only(bottom: 16.0), // Add space here
+                            EdgeInsets.only(bottom: 16.0),
                         child: MetricTile(
                           label: entry.key,
                           value: entry.value.toString(),
@@ -116,15 +115,14 @@ class _GraphPageState extends State<GraphPage> {
           );
         },
         backgroundColor:
-            Color.fromARGB(255, 253, 253, 252), // Change the background color
-        foregroundColor: Color(0xFF26547C), // Change the color of the icon
-        elevation: 4, // Change the elevation (shadow)
+            Color.fromARGB(255, 253, 253, 252),
+        foregroundColor: Color(0xFF26547C),
+        elevation: 4, 
         shape: RoundedRectangleBorder(
-          // Change the shape of the button
           borderRadius: BorderRadius.circular(10),
           side: BorderSide(color: Color(0xFF26547C), width: 1),
         ),
-        child: Icon(Icons.add), // Icon to display inside the button
+        child: Icon(Icons.add),
       ),
 
       bottomNavigationBar: CustomBottomNavigationBar(

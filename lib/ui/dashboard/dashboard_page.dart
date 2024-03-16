@@ -164,6 +164,7 @@ class _MyWidgetState extends State<Dashboard> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
+                                    // ignore: unnecessary_null_comparison
                                     latestWorkouts != null
                                         ? latestWorkouts[0]!.workoutName
                                         : "No workout available",

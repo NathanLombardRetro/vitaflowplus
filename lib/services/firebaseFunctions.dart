@@ -29,6 +29,36 @@ class FirebaseFunctions {
     }
   }
 
+  static Future<List<Sugar>> fetchLatestSugarLevels(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('sugarLevels')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      List<Sugar> fetchedSugarLevels = querySnapshot.docs.map((doc) {
+        return Sugar(
+          date: doc['date'].toDate(),
+          bloodSugar: doc['bloodSugar'],
+          insulinDose: doc['insulinDose'],
+          userId: doc['userId'],
+          insulinType: doc['insulinType'],
+          mood: doc['mood'],
+          lastMeal: doc['lastMeal'],
+        );
+      }).toList();
+      fetchedSugarLevels.sort((a, b) => a.date.compareTo(b.date));
+      fetchedSugarLevels = fetchedSugarLevels.take(15).toList();
+
+
+      return fetchedSugarLevels;
+    } catch (error) {
+      print("Error fetching sugar levels: $error");
+      throw error;
+    }
+  }
+  
+
   static Future<Map<String, dynamic>> calculateSugarMetrics(
       String userId) async {
     try {
@@ -62,9 +92,9 @@ class FirebaseFunctions {
       averageInsulin = double.parse(averageInsulin.toStringAsFixed(2));
 
       return {
-        'Average Sugar Level': averageSugar,
+        'Average Sugar Level (mmol/L)': averageSugar,
         'Most Common Mood': mostCommonMood,
-        'Average Insulin Dosage': averageInsulin,
+        'Average Insulin Dosage (Units)': averageInsulin,
       };
     } catch (error) {
       print("Error calculating sugar metrics: $error");

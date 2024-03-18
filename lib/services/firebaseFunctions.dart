@@ -62,9 +62,9 @@ class FirebaseFunctions {
       averageInsulin = double.parse(averageInsulin.toStringAsFixed(2));
 
       return {
-        'averageSugarLevel': averageSugar,
-        'mostCommonMood': mostCommonMood,
-        'averageInsulinDosage': averageInsulin,
+        'Average Sugar Level': averageSugar,
+        'Most Common Mood': mostCommonMood,
+        'Average Insulin Dosage': averageInsulin,
       };
     } catch (error) {
       print("Error calculating sugar metrics: $error");

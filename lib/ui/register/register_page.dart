@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -18,12 +17,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _register() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
         'email': _emailController.text,
         'firstName': _firstNameController.text,
         'lastName': _lastNameController.text,
@@ -40,66 +43,90 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
-      body: Padding(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Register'),
+    ),
+    body: SingleChildScrollView( // Wrap the Column with SingleChildScrollView
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            TextFormField(
               controller: _firstNameController,
               decoration: InputDecoration(
                 labelText: 'First Name',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: _lastNameController,
               decoration: InputDecoration(
                 labelText: 'Last Name',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: _phoneNumController,
               decoration: InputDecoration(
                 labelText: 'Phone Number',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: _dobController,
               decoration: InputDecoration(
                 labelText: 'Date of Birth',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 16),
-            TextField(
+            TextFormField(
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Password',
+                border: OutlineInputBorder(),
               ),
             ),
             SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _register,
-              child: Text('Register'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _register,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(vertical: 16),
+                  ),
+                ),
+                child: Text(
+                  'Register',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

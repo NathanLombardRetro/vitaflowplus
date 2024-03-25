@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-class HealthTipsWidget extends StatefulWidget {
+class HydrationTipsWidget extends StatefulWidget {
   @override
-  _HealthTipsWidgetState createState() => _HealthTipsWidgetState();
+  _HydrationTipsWidgetState createState() => _HydrationTipsWidgetState();
 }
 
-class _HealthTipsWidgetState extends State<HealthTipsWidget> {
-  final List<String> healthTips = [
+class _HydrationTipsWidgetState extends State<HydrationTipsWidget> {
+  final List<String> hydrationTips = [
     'Tip 1: Drink plenty of water throughout the day.',
     'Tip 2: Eat a balanced diet rich in fruits and vegetables.',
     'Tip 3: Get regular exercise to stay active and healthy.',
@@ -30,7 +30,7 @@ class _HealthTipsWidgetState extends State<HealthTipsWidget> {
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
-        currentIndex = (currentIndex + 1) % healthTips.length;
+        currentIndex = (currentIndex + 1) % hydrationTips.length;
       });
     });
   }
@@ -46,13 +46,13 @@ Widget build(BuildContext context) {
     ),
     child: Center( 
       child: PageView.builder(
-        itemCount: healthTips.length,
+        itemCount: hydrationTips.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.medical_information_outlined),
+            leading: Icon(Icons.water_drop_outlined),
             iconColor: Colors.yellow,
             title: Text(
-              healthTips[currentIndex],
+              hydrationTips[currentIndex],
               style: TextStyle(color: Color(0xFFF1F1EF)),
             ),
           );

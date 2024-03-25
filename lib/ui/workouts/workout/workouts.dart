@@ -155,21 +155,33 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddWorkoutPage()),
-          );
-        },
-        backgroundColor: Color.fromARGB(255, 253, 253, 252),
-        foregroundColor: Color(0xFF26547C),
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Color(0xFF26547C), width: 1),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
+        child: SizedBox(
+          width: 100,
+          height: 30,
+          child: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddWorkoutPage()),
+              );
+            },
+            backgroundColor: Color.fromARGB(255, 253, 253, 252),
+            foregroundColor: Color(0xFF26547C),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+              side: BorderSide(color: Color(0xFF26547C), width: 1),
+            ),
+            child: Text(
+              "Add workout",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ),
-        child: Icon(Icons.add),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: 1,

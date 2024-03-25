@@ -5,6 +5,7 @@ import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
+import 'package:vitaflowplus/ui/healthpage/viewhealth/sleep_tracking/sleep_analysis.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/sleep_tracking/track_sleep.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/water_intake/add_water-intake_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
@@ -75,7 +76,11 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Add logic for sleep analysis
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SleepTrendsPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 253, 253, 252),

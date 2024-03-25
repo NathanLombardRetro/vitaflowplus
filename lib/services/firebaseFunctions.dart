@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vitaflowplus/models/sleep_model.dart';
 import 'package:vitaflowplus/models/sugar_model.dart';
 import 'package:vitaflowplus/models/water_model.dart';
 import 'package:vitaflowplus/models/workout_model.dart';
@@ -279,6 +280,28 @@ class FirebaseFunctions {
       int minutes = averageTotalMinutes % 60;
 
       return '$hours h $minutes m';
+    } catch (error) {
+      print("Error fetching sleep data: $error");
+      throw error;
+    }
+  }
+
+  static Future<List<Sleep>> fetchSleepData(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('sleepData')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      List<Sleep> fetchedSleep = querySnapshot.docs.map((doc) {
+        return Sleep(
+          duration: (doc['duration'] as num).toDouble(),
+          userId: doc['userId'],
+          date: doc['date'].toDate(),
+        );
+      }).toList();
+
+      return fetchedSleep;
     } catch (error) {
       print("Error fetching sleep data: $error");
       throw error;

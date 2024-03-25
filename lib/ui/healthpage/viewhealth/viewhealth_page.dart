@@ -3,6 +3,7 @@ import 'package:vitaflowplus/components/bottom_navigation.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
+import 'package:vitaflowplus/ui/healthpage/viewhealth/water_intake/add_water-intake_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 import 'package:vitaflowplus/widgets/hydration-tips-widget.dart';
 import 'package:vitaflowplus/widgets/metric-tile-widget.dart';
@@ -96,7 +97,11 @@ class SleepWaterPage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Add logic to log water intake
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LogWaterIntakePage()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 253, 253, 252),

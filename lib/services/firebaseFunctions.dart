@@ -260,4 +260,60 @@ class FirebaseFunctions {
     throw error;
   }
 }
+  static Future<String> fetchAverageSleep(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('sleepData')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return '0h 0m';
+      }
+
+      int totalMinutes = querySnapshot.docs.fold(0, (previous, current) => previous + (current['duration'] as int));
+      int numberOfEntries = querySnapshot.docs.length;
+      int averageTotalMinutes = totalMinutes ~/ numberOfEntries;
+
+      int hours = averageTotalMinutes ~/ 60;
+      int minutes = averageTotalMinutes % 60;
+
+      return '$hours h $minutes m';
+    } catch (error) {
+      print("Error fetching sleep data: $error");
+      throw error;
+    }
+  }
+
+  static Future<String> fetchSleepSumLastWeek(String userId) async {
+  try {
+    DateTime now = DateTime.now();
+    DateTime lastWeek = now.subtract(Duration(days: 7));
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('sleepData')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    int totalMinutes = 0;
+
+    querySnapshot.docs.forEach((DocumentSnapshot document) {
+      Timestamp timestamp = document['date'] as Timestamp;
+      DateTime documentDate = timestamp.toDate();
+      int duration = document['duration'] as int;
+
+      if (documentDate.isAfter(lastWeek) && duration != null) {
+        totalMinutes += duration;
+      }
+    });
+
+    int hours = totalMinutes ~/ 60;
+    int minutes = totalMinutes % 60;
+
+    return '$hours h $minutes m';
+  } catch (error) {
+    print("Error fetching sleep data for the last week: $error");
+    throw error;
+  }
+}
 }

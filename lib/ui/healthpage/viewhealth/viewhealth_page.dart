@@ -35,16 +35,38 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            MetricTile(
-              label: "Latest Sleep for the Week",
-              value:
-                  "7 hours 30 minutes", // Example value, replace with actual data
+            FutureBuilder<String>(
+              future: FirebaseFunctions.fetchSleepSumLastWeek(user.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  String averageSleep = snapshot.data ?? '';
+                  return MetricTile(
+                    label: "Sleep for the week",
+                    value: "${averageSleep}",
+                  );
+                }
+              },
             ),
             SizedBox(height: 20),
-            MetricTile(
-              label: "Average Sleep Time",
-              value:
-                  "7 hours 30 minutes", // Example value, replace with actual data
+            FutureBuilder<String>(
+              future: FirebaseFunctions.fetchAverageSleep(user.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  String averageSleep = snapshot.data ?? '';
+                  return MetricTile(
+                    label: "Average sleep amount",
+                    value: "${averageSleep}",
+                  );
+                }
+              },
             ),
             SizedBox(height: 20),
             Center(

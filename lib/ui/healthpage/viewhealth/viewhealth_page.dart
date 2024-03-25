@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vitaflowplus/components/bottom_navigation.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
+import 'package:vitaflowplus/services/firebaseFunctions.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/water_intake/add_water-intake_page.dart';
@@ -8,7 +10,13 @@ import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 import 'package:vitaflowplus/widgets/hydration-tips-widget.dart';
 import 'package:vitaflowplus/widgets/metric-tile-widget.dart';
 
-class SleepWaterPage extends StatelessWidget {
+class SleepWaterPage extends StatefulWidget {
+  @override
+  _SleepWaterPageState createState() => _SleepWaterPageState();
+}
+
+class _SleepWaterPageState extends State<SleepWaterPage> {
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,15 +90,39 @@ class SleepWaterPage extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            MetricTile(
-              label: "Water Intake for the Week",
-              value: "1.5 liters", // Example value, replace with actual data
-            ),
-            SizedBox(height: 20),
-            MetricTile(
-              label: "Average Water Intake",
-              value: "0.5 liters", // Example value, replace with actual data
-            ),
+            FutureBuilder<double>(
+  future: FirebaseFunctions.fetchWaterIntakeSumLastWeek(user.uid),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      double waterIntakeLastWeek = snapshot.data ?? 0.0;
+      return MetricTile(
+        label: "Water Intake for the Week",
+        value: "${waterIntakeLastWeek.toStringAsFixed(2)} litres",
+      );
+    }
+  },
+),
+SizedBox(height: 20),
+FutureBuilder<double>(
+  future:FirebaseFunctions.fetchAverageWaterIntake(user.uid),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      double averageWaterIntake = snapshot.data ?? 0.0;
+      return MetricTile(
+        label: "Average Water Intake",
+        value: "${averageWaterIntake.toStringAsFixed(2)} litres",
+      );
+    }
+  },
+),
             SizedBox(height: 20),
             HydrationTipsWidget(),
             SizedBox(height: 20),

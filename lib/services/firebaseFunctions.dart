@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vitaflowplus/models/sugar_model.dart';
+import 'package:vitaflowplus/models/water_model.dart';
 import 'package:vitaflowplus/models/workout_model.dart';
 
 class FirebaseFunctions {
@@ -87,7 +88,6 @@ class FirebaseFunctions {
           .fold(0, (prev, curr) => prev + curr);
       double averageInsulin = totalInsulin / fetchedSugarLevels.length;
 
-      // Round off to 2 decimals
       averageSugar = double.parse(averageSugar.toStringAsFixed(2));
       averageInsulin = double.parse(averageInsulin.toStringAsFixed(2));
 
@@ -212,4 +212,50 @@ class FirebaseFunctions {
       throw error;
     }
   }
+
+  static Future<double> fetchAverageWaterIntake(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('waterIntakes')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      if (querySnapshot.docs.isEmpty) {
+        return 0.0;
+      }
+
+      double sum = querySnapshot.docs.fold(0.0, (previous, current) => previous + current['amount']);
+
+      double average = sum / querySnapshot.docs.length;
+
+      return average;
+    } catch (error) {
+      print("Error fetching water intakes: $error");
+      throw error;
+    }
+  }
+
+  static Future<double> fetchWaterIntakeSumLastWeek(String userId) async {
+  try {
+    DateTime now = DateTime.now();
+    DateTime lastWeek = now.subtract(Duration(days: 7));
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('waterIntakes')
+        .where('userId', isEqualTo: userId)
+        .where('timestamp', isGreaterThanOrEqualTo: Timestamp.fromDate(lastWeek))
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      return 0.0;
+    }
+
+    double sum = querySnapshot.docs.fold(0.0, (previous, current) => previous + current['amount']);
+
+    return sum;
+  } catch (error) {
+    print("Error fetching water intake sum for last week: $error");
+    throw error;
+  }
+}
 }

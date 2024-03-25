@@ -73,44 +73,52 @@ class _WeatherWidgetState extends State<WeatherWidget> {
             SizedBox(height: 16.0),
             isLoading
                 ? CircularProgressIndicator()
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                : temperature.isEmpty || condition.isEmpty
+                    ? Text(
+                        'Failed to load weather data',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.red,
+                        ),
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.network(
-                            'https:$weatherIcon',
-                            height: 50,
-                            width: 50,
+                          Row(
+                            children: [
+                              Image.network(
+                                'https:$weatherIcon',
+                                height: 50,
+                                width: 50,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                '$condition',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 253, 253, 252),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                           Text(
-                            '$condition',
+                            'Temperature: $temperature',
                             style: TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(255, 253, 253, 252),
                             ),
                           ),
+                          Text(
+                            advice,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontStyle: FontStyle.italic,
+                              color: Color.fromARGB(255, 253, 253, 252),
+                            ),
+                          ),
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Temperature: $temperature',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 253, 253, 252),
-                        ),
-                      ),
-                      Text(
-                        advice,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontStyle: FontStyle.italic,
-                          color: Color.fromARGB(255, 253, 253, 252),
-                        ),
-                      ),
-                    ],
-                  ),
           ],
         ),
       ),

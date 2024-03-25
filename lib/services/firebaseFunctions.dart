@@ -243,14 +243,16 @@ class FirebaseFunctions {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('waterIntakes')
         .where('userId', isEqualTo: userId)
-        .where('timestamp', isGreaterThanOrEqualTo: Timestamp.fromDate(lastWeek))
         .get();
 
-    if (querySnapshot.docs.isEmpty) {
-      return 0.0;
-    }
+    double sum = 0.0;
 
-    double sum = querySnapshot.docs.fold(0.0, (previous, current) => previous + current['amount']);
+    querySnapshot.docs.forEach((DocumentSnapshot document) {
+      DateTime documentDate = (document['date'] as Timestamp).toDate();
+      if (documentDate.isAfter(lastWeek)) {
+        sum += document['amount'] ?? 0.0;
+      }
+    });
 
     return sum;
   } catch (error) {

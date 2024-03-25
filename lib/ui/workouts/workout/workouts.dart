@@ -159,7 +159,7 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
         padding: EdgeInsets.only(bottom: 5.0, right: 5.0),
         child: SizedBox(
           width: 100,
-          height: 25,
+          height: 30,
           child: FloatingActionButton(
             onPressed: () {
               Navigator.push(

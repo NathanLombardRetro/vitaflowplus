@@ -17,9 +17,6 @@ class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
 
   Future<void> _logWaterIntake() async {
     try {
-      // Get user ID
-      String userId = FirebaseAuth.instance.currentUser!.uid;
-
       String waterAmount = _waterAmountController.text;
       String waterIntakeId = Uuid().v4();
 

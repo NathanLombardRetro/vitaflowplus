@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vitaflowplus/components/top_navigation.dart';
-import 'package:uuid/uuid.dart';
 
-class LogWaterIntakePage extends StatefulWidget {
-  LogWaterIntakePage({super.key});
-
+class LogSleepPage extends StatefulWidget {
   @override
-  State<LogWaterIntakePage> createState() => _MyLogWaterIntakeState();
+  _LogSleepPageState createState() => _LogSleepPageState();
 }
 
-class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
+class _LogSleepPageState extends State<LogSleepPage> {
   final user = FirebaseAuth.instance.currentUser!;
-  final TextEditingController _waterAmountController = TextEditingController();
+  final TextEditingController _sleepDurationController = TextEditingController();
 
-  Future<void> _logWaterIntake() async {
+  Future<void> _logSleepData() async {
     try {
-      String waterAmount = _waterAmountController.text;
-      String waterIntakeId = Uuid().v4();
-
-      await FirebaseFirestore.instance
-          .collection('waterIntakes')
-          .doc(waterIntakeId)
-          .set({
-        'amount': double.parse(waterAmount),
-        'date': DateTime.now(),
-        'userId': user.uid,
-      });
-
-      print('Water intake logged successfully');
-      Navigator.pop(context);
+      String sleepDuration = _sleepDurationController.text;
+      if (sleepDuration.isNotEmpty) {
+        await FirebaseFirestore.instance.collection('sleepData').add({
+          'duration': int.parse(sleepDuration),
+          'date': DateTime.now(),
+          'userId': user.uid,
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sleep data logged successfully')));
+        Navigator.pop(context);
+        _sleepDurationController.clear();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Please enter sleep duration')));
+      }
     } catch (e) {
-      print('Failed to log water intake: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to log sleep data: $e')));
     }
   }
 
@@ -49,14 +45,14 @@ class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Enter Water Intake",
+              "Enter Sleep Data",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             TextField(
-              controller: _waterAmountController,
+              controller: _sleepDurationController,
               decoration: InputDecoration(
-                labelText: 'Amount of water (in litres)',
+                labelText: 'Sleep duration (in minutes)',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: BorderSide(color: Color(0xFF26547C), width: 1),
@@ -67,9 +63,7 @@ class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  _logWaterIntake();
-                },
+                onPressed: () => _logSleepData(),
                 style: ElevatedButton.styleFrom(
                   primary: Color.fromARGB(255, 253, 253, 252),
                   onPrimary: Color(0xFF26547C),
@@ -79,7 +73,7 @@ class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
                     side: BorderSide(color: Color(0xFF26547C), width: 1),
                   ),
                 ),
-                child: Text("Log Water Intake"),
+                child: Text("Log Sleep Data"),
               ),
             ),
           ],

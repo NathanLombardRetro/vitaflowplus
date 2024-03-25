@@ -5,6 +5,7 @@ import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
+import 'package:vitaflowplus/ui/healthpage/viewhealth/sleep_tracking/track_sleep.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/water_intake/add_water-intake_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 import 'package:vitaflowplus/widgets/hydration-tips-widget.dart';
@@ -68,7 +69,11 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
                   SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
-                      // Add logic to track sleep manually or integrate with sleep tracking device
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LogSleepPage()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 253, 253, 252),
@@ -91,38 +96,38 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
             ),
             SizedBox(height: 20),
             FutureBuilder<double>(
-  future: FirebaseFunctions.fetchWaterIntakeSumLastWeek(user.uid),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return CircularProgressIndicator();
-    } else if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    } else {
-      double waterIntakeLastWeek = snapshot.data ?? 0.0;
-      return MetricTile(
-        label: "Water Intake for the Week",
-        value: "${waterIntakeLastWeek.toStringAsFixed(2)} litres",
-      );
-    }
-  },
-),
-SizedBox(height: 20),
-FutureBuilder<double>(
-  future:FirebaseFunctions.fetchAverageWaterIntake(user.uid),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return CircularProgressIndicator();
-    } else if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    } else {
-      double averageWaterIntake = snapshot.data ?? 0.0;
-      return MetricTile(
-        label: "Average Water Intake",
-        value: "${averageWaterIntake.toStringAsFixed(2)} litres",
-      );
-    }
-  },
-),
+              future: FirebaseFunctions.fetchWaterIntakeSumLastWeek(user.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  double waterIntakeLastWeek = snapshot.data ?? 0.0;
+                  return MetricTile(
+                    label: "Water Intake for the Week",
+                    value: "${waterIntakeLastWeek.toStringAsFixed(2)} litres",
+                  );
+                }
+              },
+            ),
+            SizedBox(height: 20),
+            FutureBuilder<double>(
+              future: FirebaseFunctions.fetchAverageWaterIntake(user.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  double averageWaterIntake = snapshot.data ?? 0.0;
+                  return MetricTile(
+                    label: "Average Water Intake",
+                    value: "${averageWaterIntake.toStringAsFixed(2)} litres",
+                  );
+                }
+              },
+            ),
             SizedBox(height: 20),
             HydrationTipsWidget(),
             SizedBox(height: 20),

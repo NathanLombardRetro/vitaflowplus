@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
+import 'package:vitaflowplus/models/water_model.dart';
 import 'package:vitaflowplus/models/workout_model.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
 import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
@@ -77,29 +78,31 @@ class _MyWidgetState extends State<Dashboard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FutureBuilder<Sugar?>(
-                    future: FirebaseFunctions.fetchLastSugarLevel(user.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        String lastMood = snapshot.data != null
-                            ? snapshot.data!.mood
-                            : "No data available";
-                        return Expanded(
-                          child: Card(
+                  Expanded(
+                    child: FutureBuilder<Sugar?>(
+                      future: FirebaseFunctions.fetchLastSugarLevel(user.uid),
+                      builder: (context, sugarSnapshot) {
+                        if (sugarSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (sugarSnapshot.hasError) {
+                          return Text('Error: ${sugarSnapshot.error}');
+                        } else {
+                          String lastMood = sugarSnapshot.data != null
+                              ? sugarSnapshot.data!.mood
+                              : "No data available";
+                          return Card(
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Mood",
+                                    "Current Mood",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   Text(
                                     lastMood,
@@ -108,31 +111,49 @@ class _MyWidgetState extends State<Dashboard> {
                                 ],
                               ),
                             ),
-                          ),
-                        );
-                      }
-                    },
+                          );
+                        }
+                      },
+                    ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child: Card(
-                      child: Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Water Intake",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                    child: FutureBuilder<waterIntake?>(
+                      future: FirebaseFunctions.fetchLastWater(user.uid),
+                      builder: (context, waterSnapshot) {
+                        if (waterSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (waterSnapshot.hasError) {
+                          return Text('Error: ${waterSnapshot.error}');
+                        } else {
+                          waterIntake? lastWater = waterSnapshot.data;
+                          String waterAmount = lastWater != null
+                              ? lastWater.amount.toString()
+                              : "No data available";
+                          return Card(
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Water Intake",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    waterAmount + " litres",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              "Placeholder Value",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],
@@ -141,60 +162,80 @@ class _MyWidgetState extends State<Dashboard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  FutureBuilder<List<Workout?>>(
-                    future: FirebaseFunctions.fetchLatestWorkout(user.uid),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        List<Workout?> latestWorkouts = snapshot.data!;
-                        return Expanded(
-                          child: Card(
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Column(
+                  Expanded(
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: FutureBuilder<List<Workout?>>(
+                          future:
+                              FirebaseFunctions.fetchLatestWorkout(user.uid),
+                          builder: (context, workoutSnapshot) {
+                            if (workoutSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (workoutSnapshot.hasError) {
+                              return Text('Error: ${workoutSnapshot.error}');
+                            } else {
+                              List<Workout?> latestWorkouts =
+                                  workoutSnapshot.data!;
+                              String workoutName = latestWorkouts.isNotEmpty
+                                  ? latestWorkouts[0]!.workoutName
+                                  : "No workout available";
+                              return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "Last Workout",
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                   Text(
-                                    // ignore: unnecessary_null_comparison
-                                    latestWorkouts != null
-                                        ? latestWorkouts[0]!.workoutName
-                                        : "No workout available",
+                                    workoutName,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }
-                    },
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Card(
                       child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Sleep Time",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Placeholder Value",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
+                        child: FutureBuilder<String?>(
+                          future: FirebaseFunctions.fetchLastSleep(user.uid),
+                          builder: (context, sleepSnapshot) {
+                            if (sleepSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (sleepSnapshot.hasError) {
+                              return Text('Error: ${sleepSnapshot.error}');
+                            } else {
+                              String sleepTime = sleepSnapshot.data ??
+                                  "No sleep data available";
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Last Sleep Time",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    sleepTime,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),

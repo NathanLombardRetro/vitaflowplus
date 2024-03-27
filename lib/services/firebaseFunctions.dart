@@ -302,6 +302,8 @@ class FirebaseFunctions {
         );
       }).toList();
 
+      fetchedSleep.sort((a, b) => a.date.compareTo(b.date));
+
       return fetchedSleep;
     } catch (error) {
       print("Error fetching sleep data: $error");

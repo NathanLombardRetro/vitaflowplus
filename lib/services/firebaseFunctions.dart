@@ -370,8 +370,36 @@ class FirebaseFunctions {
         return "No sleep data found";
       }
     } catch (error) {
-      print("Error fetching sugar levels: $error");
+      print("Error lastest sleep time: $error");
       throw error;
     }
   }
+
+  static Future<waterIntake?> fetchLastWater(String userId) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('waterIntakes')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    List<waterIntake> fetchedWater = querySnapshot.docs.map((doc) {
+      return waterIntake(
+        amount: (doc['amount'] as num).toDouble(),
+        userId: doc['userId'],
+        date: doc['date'].toDate(),
+      );
+    }).toList();
+
+    fetchedWater.sort((a, b) => a.date.compareTo(b.date));
+    
+    if (fetchedWater.isNotEmpty) {
+      return fetchedWater.last;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    print("Error fetching latest water intake: $error");
+    throw error;
+  }
+}
 }

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class waterIntake {
   final DateTime date;
   final double amount;

@@ -38,8 +38,8 @@ class CustomAppBar extends StatelessWidget {
           itemBuilder: (context) => [
             PopupMenuItem(
               child: ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
+                leading: Icon(Icons.person_2_outlined),
+                title: Text('Profile'),
                 onTap: () {
                   Navigator.pop(context);
                 },

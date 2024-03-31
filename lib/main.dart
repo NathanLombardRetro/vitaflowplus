@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
           id: 'custom_light',
           data: ThemeData(
             primaryColor: Color.fromARGB(255, 253, 253, 252),
-            primaryColorLight:Colors.deepPurple,
+            primaryColorLight:const Color.fromARGB(255, 0, 0, 0),
             scaffoldBackgroundColor: Colors.deepPurple 
           ),
         ),
@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
           id: 'custom_dark',
           data: ThemeData(
             primaryColor: Color.fromARGB(255, 19, 19, 19),
-            primaryColorDark:Colors.deepPurple ,
+            primaryColorLight:Color.fromARGB(255, 253, 253, 252) ,
             scaffoldBackgroundColor: Colors.deepPurple
           ),
         ),

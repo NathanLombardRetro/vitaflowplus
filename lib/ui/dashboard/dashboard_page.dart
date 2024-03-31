@@ -43,7 +43,7 @@ class _MyWidgetState extends State<Dashboard> {
             children: [
               Text(
                 "Welcome back!",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: currentTheme.primaryColorLight),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),

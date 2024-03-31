@@ -24,8 +24,22 @@ class MainApp extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: true,
       themes: [
-        AppTheme.light(),
-        AppTheme.dark(),
+        AppTheme.light().copyWith(
+          id: 'custom_light',
+          data: ThemeData(
+            primaryColor: Color.fromARGB(255, 253, 253, 252),
+            primaryColorLight:const Color.fromARGB(255, 0, 0, 0),
+            scaffoldBackgroundColor: Colors.deepPurple 
+          ),
+        ),
+        AppTheme.dark().copyWith(
+          id: 'custom_dark',
+          data: ThemeData(
+            primaryColor: Color.fromARGB(255, 19, 19, 19),
+            primaryColorLight:Color.fromARGB(255, 253, 253, 252) ,
+            scaffoldBackgroundColor: Colors.deepPurple
+          ),
+        ),
       ],
       child: MaterialApp(
         title: 'VitaFlow+',

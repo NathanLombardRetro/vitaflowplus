@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/models/water_model.dart';
 import 'package:vitaflowplus/models/workout_model.dart';
@@ -25,8 +26,11 @@ class _MyWidgetState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme = ThemeProvider.themeOf(context).data;
+
+
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 253, 253, 252),
+      backgroundColor: currentTheme.primaryColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
@@ -39,7 +43,7 @@ class _MyWidgetState extends State<Dashboard> {
             children: [
               Text(
                 "Welcome back!",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: currentTheme.primaryColorLight),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:vitaflowplus/ui/login/forgot-password-page.dart';
 import 'package:vitaflowplus/ui/register/register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -65,22 +66,18 @@ class _LoginPageState extends State<LoginPage> {
                       _login();
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color(0xFF26547C)),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF26547C)),
                       foregroundColor: MaterialStateProperty.all<Color>(
-                          Color.fromARGB(
-                              255, 253, 253, 252)),
+                          Color.fromARGB(255, 253, 253, 252)),
                       textStyle: MaterialStateProperty.all<TextStyle>(
                           TextStyle(fontSize: 14)),
                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                           EdgeInsets.all(15)),
                       shape: MaterialStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              20),
-                          side: BorderSide(
-                              color:
-                                  Color(0xFF26547C)),
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(color: Color(0xFF26547C)),
                         ),
                       ),
                     ),
@@ -91,20 +88,18 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ResetPasswordPage()));
+                        },
                         child: Text(
                           'Forgot password?',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      GestureDetector(
-                        onTap: () {},
-                        child: Text(
-                          'Reset password',
                           style: TextStyle(color: Color(0xFF26547C)),
                         ),
                       ),
+                      SizedBox(width: 20),
                     ],
                   ),
                   SizedBox(height: 20),

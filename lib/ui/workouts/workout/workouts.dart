@@ -46,6 +46,10 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
                   final workouts = snapshot.data!;
+
+                  if (workouts.isEmpty) {
+                    return Center(child: Text('No data available'));
+                  }
                   return ListView.builder(
                     itemCount: workouts.length,
                     itemBuilder: (BuildContext context, int index) {

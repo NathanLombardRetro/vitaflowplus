@@ -132,32 +132,36 @@ class FirebaseFunctions {
   }
 
   static Future<List<Workout>> fetchLatestWorkouts(String userId) async {
-    try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection('workouts')
-          .where('userId', isEqualTo: userId)
-          .get();
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('workouts')
+        .where('userId', isEqualTo: userId)
+        .get();
 
-      List<Workout> fetchedWorkouts = querySnapshot.docs.map((doc) {
-        return Workout(
-          workoutName: doc['workoutName'],
-          workoutDescription: doc['workoutDescription'],
-          timeTrained: doc['timeTrained'],
-          exercises: List<String>.from(doc['exercises']),
-          userId: doc['userId'],
-          date: doc['date'].toDate(),
-        );
-      }).toList();
-      fetchedWorkouts.sort((a, b) => a.date.compareTo(b.date));
-      List<Workout> lastFourWorkouts =
-          fetchedWorkouts.sublist(fetchedWorkouts.length - 4);
+    List<Workout> fetchedWorkouts = querySnapshot.docs.map((doc) {
+      return Workout(
+        workoutName: doc['workoutName'],
+        workoutDescription: doc['workoutDescription'],
+        timeTrained: doc['timeTrained'],
+        exercises: List<String>.from(doc['exercises']),
+        userId: doc['userId'],
+        date: doc['date'].toDate(),
+      );
+    }).toList();
+    fetchedWorkouts.sort((a, b) => a.date.compareTo(b.date));
 
-      return lastFourWorkouts;
-    } catch (error) {
-      print("Error fetching workouts: $error");
-      throw error;
+    // Ensure that there are at least four workouts available
+    if (fetchedWorkouts.length <= 4) {
+      return fetchedWorkouts;
+    } else {
+      // If there are more than four workouts, get the last four
+      return fetchedWorkouts.sublist(fetchedWorkouts.length - 4);
     }
+  } catch (error) {
+    print("Error fetching workouts: $error");
+    throw error;
   }
+}
 
   static Future<List<Workout>> fetchWorkouts(String userId) async {
     try {
@@ -367,7 +371,7 @@ class FirebaseFunctions {
 
         return '$hours h $minutes m';
       } else {
-        return "No sleep data found";
+        return "None";
       }
     } catch (error) {
       print("Error lastest sleep time: $error");

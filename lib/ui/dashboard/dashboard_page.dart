@@ -28,7 +28,6 @@ class _MyWidgetState extends State<Dashboard> {
   Widget build(BuildContext context) {
     ThemeData currentTheme = ThemeProvider.themeOf(context).data;
 
-
     return Scaffold(
       backgroundColor: currentTheme.primaryColor,
       appBar: PreferredSize(
@@ -43,7 +42,10 @@ class _MyWidgetState extends State<Dashboard> {
             children: [
               Text(
                 "Welcome back!",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: currentTheme.primaryColorLight),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.primaryColorLight),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),
@@ -59,18 +61,18 @@ class _MyWidgetState extends State<Dashboard> {
                   } else {
                     String sugarReading = snapshot.data != null
                         ? snapshot.data!.bloodSugar
-                        : "No data available";
+                        : "0.0";
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
                           "Last Sugar Reading:",
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
                         ),
                         Text(
                           sugarReading + " mmol/L",
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24, color: currentTheme.primaryColorLight),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -94,7 +96,7 @@ class _MyWidgetState extends State<Dashboard> {
                         } else {
                           String lastMood = sugarSnapshot.data != null
                               ? sugarSnapshot.data!.mood
-                              : "No data available";
+                              : "None";
                           return Card(
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
@@ -132,9 +134,10 @@ class _MyWidgetState extends State<Dashboard> {
                           return Text('Error: ${waterSnapshot.error}');
                         } else {
                           waterIntake? lastWater = waterSnapshot.data;
+                          
                           String waterAmount = lastWater != null
                               ? lastWater.amount.toString()
-                              : "No data available";
+                              : "0.0";
                           return Card(
                             child: Padding(
                               padding: EdgeInsets.all(16.0),
@@ -177,14 +180,12 @@ class _MyWidgetState extends State<Dashboard> {
                             if (workoutSnapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return Center(child: CircularProgressIndicator());
-                            } else if (workoutSnapshot.hasError) {
-                              return Text('Error: ${workoutSnapshot.error}');
                             } else {
                               List<Workout?> latestWorkouts =
-                                  workoutSnapshot.data!;
+                                  workoutSnapshot.data ?? [];
                               String workoutName = latestWorkouts.isNotEmpty
                                   ? latestWorkouts[0]!.workoutName
-                                  : "No workout available";
+                                  : "None";
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -221,12 +222,12 @@ class _MyWidgetState extends State<Dashboard> {
                               return Text('Error: ${sleepSnapshot.error}');
                             } else {
                               String sleepTime = sleepSnapshot.data ??
-                                  "No sleep data available";
+                                  "No data available";
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Last Sleep Time",
+                                    "Last Sleep",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

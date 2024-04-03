@@ -62,7 +62,7 @@ class CustomAppBar extends StatelessWidget {
             PopupMenuItem(
               child: ListTile(
                 leading: Icon(Icons.person_2_outlined),
-                title: Text('Profile'),
+                title: Text('Profile picture'),
                 onTap: () {
                   Navigator.push(
                     context,

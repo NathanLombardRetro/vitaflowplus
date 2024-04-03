@@ -27,21 +27,10 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
     }
   }
 
-  Future<void> _getImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      final imageBytes = await pickedFile.readAsBytes();
-      setState(() {
-        _imageBytes = Uint8List.fromList(imageBytes);
-      });
-    }
-  }
-
   Future<void> _addUserPicture(File imageFile) async {
     try {
       String userId = FirebaseAuth.instance.currentUser!.uid;
-      
+
       QuerySnapshot existingPictures = await FirebaseFirestore.instance
           .collection('userPictures')
           .where('userId', isEqualTo: userId)
@@ -92,13 +81,14 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _imageBytes != null
-                ? Image.memory(
-                    _imageBytes!,
-                    width: 300,
-                    height: 300,
-                  )
-                : Text('No image selected'),
+            if (_imageFile != null)
+              Image.file(
+                _imageFile!,
+                width: 300,
+                height: 300,
+              )
+            else
+              Text('No image selected'),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _getImageTwo,
@@ -108,8 +98,7 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
             ElevatedButton(
               onPressed: () {
                 if (_imageFile != null) {
-                  _addUserPicture(
-                      _imageFile!);
+                  _addUserPicture(_imageFile!);
                 }
               },
               child: Text('Upload Image'),

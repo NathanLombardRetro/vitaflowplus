@@ -5,10 +5,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -47,4 +44,12 @@ class DefaultFirebaseOptions {
     projectId: 'vitaflowplus-96701',
     storageBucket: 'vitaflowplus-96701.appspot.com',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+      apiKey: "AIzaSyALSYFKjOnn_EwuEFVqHYU8DE0cbM2LUeA",
+      authDomain: "vitaflowplus-96701.firebaseapp.com",
+      projectId: "vitaflowplus-96701",
+      storageBucket: "vitaflowplus-96701.appspot.com",
+      messagingSenderId: "847882197453",
+      appId: "1:847882197453:web:e9ab468909f80b93814c84");
 }

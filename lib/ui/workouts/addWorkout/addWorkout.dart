@@ -31,7 +31,6 @@ class _MyAddWorkoutState extends State<AddWorkoutPage> {
 
   Future<void> _addWorkout() async {
     try {
-      // Get user ID
       String userId = FirebaseAuth.instance.currentUser!.uid;
 
       String workoutName = _workoutNameController.text;

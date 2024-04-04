@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/components/bottom_navigation.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
@@ -21,7 +22,9 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
   final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme = ThemeProvider.themeOf(context).data;
     return Scaffold(
+      backgroundColor: currentTheme.primaryColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
@@ -33,7 +36,7 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
           children: [
             Text(
               "Sleep",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
             ),
             SizedBox(height: 20),
             FutureBuilder<String>(
@@ -119,7 +122,7 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
             SizedBox(height: 40),
             Text(
               "Water Intake",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
             ),
             SizedBox(height: 20),
             FutureBuilder<double>(

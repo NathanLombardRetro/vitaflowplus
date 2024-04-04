@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ class ImageUploadPage extends StatefulWidget {
 }
 
 class _ImageUploadPageState extends State<ImageUploadPage> {
-  Uint8List? _imageBytes;
 
   File? _imageFile;
 

@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Add logo here
             Image.asset(
               'assets/vitaflow.png',
               width: 300,

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/models/sleep_model.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
@@ -15,7 +16,9 @@ class _SleepTrendsPageState extends State<SleepTrendsPage> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme = ThemeProvider.themeOf(context).data;
     return Scaffold(
+      backgroundColor: currentTheme.primaryColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
@@ -48,20 +51,20 @@ class _SleepTrendsPageState extends State<SleepTrendsPage> {
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          backgroundColor: Color.fromARGB(255, 253, 253, 252),
+                          backgroundColor: currentTheme.primaryColor,
                           foregroundColor: Color(0xFF26547C),
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side:
-                                BorderSide(color: Color.fromARGB(255, 253, 253, 252), width: 0),
+                                BorderSide(color: currentTheme.primaryColor, width: 0),
                           ),
                           child: Icon(Icons.arrow_back),
                         ),
                         Text(
                           "Sleep Trend",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                              fontSize: 24, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
                         ),
                       ],
                     ),
@@ -70,18 +73,18 @@ class _SleepTrendsPageState extends State<SleepTrendsPage> {
                   Expanded(
                     flex: 1,
                     child: SfCartesianChart(
-                      backgroundColor: Colors.white, // Set background color
+                      backgroundColor: currentTheme.primaryColor, // Set background color
                       primaryXAxis: CategoryAxis(
-                        title: AxisTitle(text: 'Day'),
-                        majorGridLines: MajorGridLines(color: Colors.white),
+                        title: AxisTitle(text: 'Day', textStyle: TextStyle(color: currentTheme.primaryColorLight),),
+                        majorGridLines: MajorGridLines(color: currentTheme.primaryColor),
                         labelStyle: TextStyle(
-                            color: Colors.black), // Set label text color
+                            color: currentTheme.primaryColorLight), // Set label text color
                       ),
                       primaryYAxis: NumericAxis(
-                        title: AxisTitle(text: 'Sleep Duration (min)'),
-                        majorGridLines: MajorGridLines(color: Colors.white),
+                        title: AxisTitle(text: 'Sleep Duration (min)', textStyle: TextStyle(color: currentTheme.primaryColorLight),),
+                        majorGridLines: MajorGridLines(color: currentTheme.primaryColor),
                         labelStyle: TextStyle(
-                            color: Colors.black), // Set label text color
+                            color: currentTheme.primaryColorLight), // Set label text color
                         edgeLabelPlacement: EdgeLabelPlacement.shift,
                       ),
                       series: <CartesianSeries>[

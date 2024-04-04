@@ -1,13 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:vitaflowplus/components/bottom_navigation.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/models/sugar_model.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
+import 'package:vitaflowplus/ui/bloodsugar/addBloodSugar/addbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
-import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 import 'package:vitaflowplus/widgets/metric-tile-widget.dart';
 
@@ -21,8 +22,9 @@ class _GraphPageState extends State<GraphPage> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme = ThemeProvider.themeOf(context).data;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 253, 253, 252),
+      backgroundColor: currentTheme.primaryColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
@@ -34,7 +36,7 @@ class _GraphPageState extends State<GraphPage> {
           children: [
             Text(
               "Sugar Level Trends",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: currentTheme.primaryColorLight),
             ),
             SizedBox(height: 20),
             Expanded(
@@ -59,14 +61,16 @@ class _GraphPageState extends State<GraphPage> {
                         Expanded(
                           child: SfCartesianChart(
                             primaryXAxis: CategoryAxis(
-                              title: AxisTitle(text: 'Times tested'),
+                              title: AxisTitle(text: 'Times tested',textStyle: TextStyle(color: currentTheme.primaryColorLight),),
                               majorGridLines: MajorGridLines(
-                                  width: 0), // Hide major grid lines
+                                  width: 0),
+                                  labelStyle: TextStyle(color: currentTheme.primaryColorLight),
                             ),
                             primaryYAxis: NumericAxis(
-                              title: AxisTitle(text: 'Blood Sugar Level'),
+                              title: AxisTitle(text: 'Blood Sugar Level',textStyle: TextStyle(color: currentTheme.primaryColorLight),),
                               majorGridLines: MajorGridLines(
-                                  width: 0), // Show major grid lines
+                                  width: 0),
+                                  labelStyle: TextStyle(color: currentTheme.primaryColorLight),
                             ),
                             series: <CartesianSeries>[
                               LineSeries<ChartData, String>(
@@ -102,7 +106,7 @@ class _GraphPageState extends State<GraphPage> {
                                   }).toList(),
                                 );
                               } else {
-                                return Center(child: Text('No data available'));
+                                return Center(child: Text('No data available', style: TextStyle(color: currentTheme.primaryColorLight),));
                               }
                             }
                           },
@@ -126,7 +130,7 @@ class _GraphPageState extends State<GraphPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DeviceScannerPage()),
+                MaterialPageRoute(builder: (context) => AddBloodSugarPage()),
               );
             },
             backgroundColor: Color.fromARGB(255, 253, 253, 252),

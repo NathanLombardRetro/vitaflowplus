@@ -12,6 +12,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10), 
+            SizedBox(height: 10),
             Image.asset(
               'assets/vitaflow.png',
               width: 300,
@@ -76,8 +78,21 @@ class _LoginPageState extends State<LoginPage> {
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Color(0xFF26547C)),
                       ),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isObscure =
+                                !_isObscure;
+                          });
+                        },
+                        child: Icon(
+                          _isObscure ? Icons.visibility_off : Icons.visibility,
+                          color: Color(0xFF26547C),
+                        ),
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText:
+                        _isObscure,
                   ),
                   SizedBox(height: 16.0),
                   ElevatedButton(

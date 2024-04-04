@@ -47,15 +47,37 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   TextField(
                     controller: _usernameController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Email',
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),
                   TextField(
                     controller: _passwordController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
                     ),
                     obscureText: true,
                   ),

@@ -42,6 +42,8 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
   void setAdvice(String condition) {
     if (condition == 'Sunny') {
+      advice = 'It\'s a good day for a swim!';
+    } else if (condition == 'Clear') {
       advice = 'It\'s a good day to go for a run!';
     } else {
       advice = 'Consider indoor activities today.';

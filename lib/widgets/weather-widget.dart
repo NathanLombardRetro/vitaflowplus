@@ -24,7 +24,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
 
   Future<void> fetchWeatherData() async {
     final response = await http.get(Uri.parse(
-        'http://api.weatherapi.com/v1/current.json?key=$apiKey&q=$city'));
+        'https://api.weatherapi.com/v1/current.json?key=$apiKey&q=$city'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -41,8 +41,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   }
 
   void setAdvice(String condition) {
-    // Provide advice based on the weather condition
     if (condition == 'Sunny') {
+      advice = 'It\'s a good day for a swim!';
+    } else if (condition == 'Clear') {
       advice = 'It\'s a good day to go for a run!';
     } else {
       advice = 'Consider indoor activities today.';

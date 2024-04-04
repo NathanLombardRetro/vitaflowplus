@@ -12,6 +12,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  bool _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,27 +21,24 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Color.fromARGB(255, 253, 253, 252),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Add logo here
+            SizedBox(height: 10),
             Image.asset(
               'assets/vitaflow.png',
               width: 300,
               height: 300,
             ),
-            SizedBox(height: 16.0),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 2.0),
-              child: Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF26547C),
-                ),
+            Text(
+              'Login',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF26547C),
               ),
             ),
+            SizedBox(height: 16.0),
             Padding(
               padding: EdgeInsets.all(16.0),
               child: Column(
@@ -48,17 +47,52 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   TextField(
                     controller: _usernameController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Email',
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
                     ),
                   ),
                   SizedBox(height: 16.0),
                   TextField(
                     controller: _passwordController,
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Password',
+                      labelStyle: TextStyle(color: Colors.black),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Color(0xFF26547C)),
+                      ),
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isObscure =
+                                !_isObscure;
+                          });
+                        },
+                        child: Icon(
+                          _isObscure ? Icons.visibility_off : Icons.visibility,
+                          color: Color(0xFF26547C),
+                        ),
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText:
+                        _isObscure,
                   ),
                   SizedBox(height: 16.0),
                   ElevatedButton(
@@ -90,16 +124,16 @@ class _LoginPageState extends State<LoginPage> {
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ResetPasswordPage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResetPasswordPage()),
+                          );
                         },
                         child: Text(
                           'Forgot password?',
                           style: TextStyle(color: Color(0xFF26547C)),
                         ),
                       ),
-                      SizedBox(width: 20),
                     ],
                   ),
                   SizedBox(height: 20),

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vitaflowplus/models/sleep_model.dart';
 import 'package:vitaflowplus/models/sugar_model.dart';
@@ -58,6 +60,28 @@ class FirebaseFunctions {
       throw error;
     }
   }
+
+  static Future<Uint8List?> getUserProfileImageData(String userId) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('userPictures')
+        .where('userId', isEqualTo: userId)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      querySnapshot.docs.sort((a, b) => a['date'].compareTo(b['date']));
+
+      List<int> imageData = List<int>.from(querySnapshot.docs.first['imageData']);
+      Uint8List imageBytes = Uint8List.fromList(imageData);
+      return imageBytes;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    print('Error fetching user profile picture: $e');
+    return null;
+  }
+}
 
   static Future<Map<String, dynamic>> calculateSugarMetrics(
       String userId) async {

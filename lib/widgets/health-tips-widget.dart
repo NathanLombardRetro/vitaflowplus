@@ -8,9 +8,11 @@ class HealthTipsWidget extends StatefulWidget {
 
 class _HealthTipsWidgetState extends State<HealthTipsWidget> {
   final List<String> healthTips = [
-    'Tip 1: Drink plenty of water throughout the day.',
-    'Tip 2: Eat a balanced diet rich in fruits and vegetables.',
-    'Tip 3: Get regular exercise to stay active and healthy.',
+    'Tip 1: Monitor blood sugar regularly.',
+    'Tip 2: Stay physically active.',
+    'Tip 3: Choose low glycemic index carbs.',
+    'Tip 4: Stay hydrated with water.',
+    'Tip 5: Do not skip meals.'
   ];
   int currentIndex = 0;
   late Timer _timer;
@@ -38,7 +40,7 @@ class _HealthTipsWidgetState extends State<HealthTipsWidget> {
   @override
 Widget build(BuildContext context) {
   return Container(
-    height: 65,
+    height: 55,
     alignment: Alignment.center,
     decoration: BoxDecoration(
       color: Color(0xFF26547C),

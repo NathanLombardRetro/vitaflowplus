@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
 
@@ -12,7 +13,6 @@ class ImageUploadPage extends StatefulWidget {
 }
 
 class _ImageUploadPageState extends State<ImageUploadPage> {
-
   File? _imageFile;
 
   Future<void> _getImageTwo() async {
@@ -71,10 +71,9 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData currentTheme = ThemeProvider.themeOf(context).data;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Image Upload'),
-      ),
+      backgroundColor: currentTheme.primaryColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -86,11 +85,26 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
                 height: 300,
               )
             else
-              Text('No image selected'),
+              Text('No image selected',style: TextStyle(color: currentTheme.primaryColorLight),),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _getImageTwo,
               child: Text('Select Image'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  Color.fromARGB(255, 253, 253, 252),
+                ),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  Color(0xFF26547C),
+                ),
+                elevation: MaterialStateProperty.all<double>(0),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: Color(0xFF26547C), width: 1),
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -99,7 +113,30 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
                   _addUserPicture(_imageFile!);
                 }
               },
-              child: Text('Upload Image'),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Color(0xFF26547C)),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 253, 253, 252)),
+                textStyle: MaterialStateProperty.all<TextStyle>(
+                    TextStyle(fontSize: 14)),
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    EdgeInsets.all(15)),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Color(0xFF26547C)),
+                  ),
+                ),
+              ),
+              child: Text(
+                'Upload Image',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ],
         ),

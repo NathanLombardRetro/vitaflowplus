@@ -8,9 +8,11 @@ class HydrationTipsWidget extends StatefulWidget {
 
 class _HydrationTipsWidgetState extends State<HydrationTipsWidget> {
   final List<String> hydrationTips = [
-    'Tip 1: Drink plenty of water throughout the day.',
-    'Tip 2: Eat a balanced diet rich in fruits and vegetables.',
-    'Tip 3: Get regular exercise to stay active and healthy.',
+    'Tip 1: Carry a water bottle..',
+    'Tip 2: Set daily hydration goals.',
+    'Tip 3: Check urine color for hydration status.',
+    'Tip 4: Eat hydrating foods like fruits and veggies.',
+    'Tip 5: Limit caffeine and alcohol intake.'
   ];
   int currentIndex = 0;
   late Timer _timer;

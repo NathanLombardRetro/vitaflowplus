@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Email',
                     ),
                   ),
                   SizedBox(height: 16.0),

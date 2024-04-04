@@ -6,9 +6,9 @@ import 'package:vitaflowplus/components/bottom_navigation.dart';
 import 'package:vitaflowplus/components/top_navigation.dart';
 import 'package:vitaflowplus/models/sugar_model.dart';
 import 'package:vitaflowplus/services/firebaseFunctions.dart';
+import 'package:vitaflowplus/ui/bloodsugar/addBloodSugar/addbloodsugar_page.dart';
 import 'package:vitaflowplus/ui/dashboard/dashboard_page.dart';
 import 'package:vitaflowplus/ui/healthpage/viewhealth/viewhealth_page.dart';
-import 'package:vitaflowplus/ui/testBluetooth/testBlue_page.dart';
 import 'package:vitaflowplus/ui/workouts/workout/workouts.dart';
 import 'package:vitaflowplus/widgets/metric-tile-widget.dart';
 
@@ -130,7 +130,7 @@ class _GraphPageState extends State<GraphPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => DeviceScannerPage()),
+                MaterialPageRoute(builder: (context) => AddBloodSugarPage()),
               );
             },
             backgroundColor: Color.fromARGB(255, 253, 253, 252),

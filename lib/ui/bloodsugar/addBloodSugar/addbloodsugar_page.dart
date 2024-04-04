@@ -2,15 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vitaflowplus/ui/bloodsugar/viewbloodsugar/viewbloodsugar_page.dart';
 
-class DeviceScannerPage extends StatefulWidget {
-    DeviceScannerPage ({super.key});
+class AddBloodSugarPage extends StatefulWidget {
+    AddBloodSugarPage ({super.key});
 
   @override
-  _DeviceScannerPageState createState() => _DeviceScannerPageState();
+  _AddBloodSugarPageState createState() => _AddBloodSugarPageState();
 }
 
-class _DeviceScannerPageState extends State<DeviceScannerPage> {
+class _AddBloodSugarPageState extends State<AddBloodSugarPage> {
 
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -42,7 +43,10 @@ class _DeviceScannerPageState extends State<DeviceScannerPage> {
     });
 
     print('Workout added successfully');
-    Navigator.pop(context);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => GraphPage()),
+      );
   } catch (e) {
     print('Failed to add workout: $e');
   }

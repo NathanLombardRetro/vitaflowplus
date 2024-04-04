@@ -29,160 +29,168 @@ class _SleepWaterPageState extends State<SleepWaterPage> {
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Sleep",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
-            ),
-            SizedBox(height: 20),
-            FutureBuilder<String>(
-              future: FirebaseFunctions.fetchSleepSumLastWeek(user.uid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  String averageSleep = snapshot.data ?? '';
-                  return MetricTile(
-                    label: "Sleep for the week",
-                    value: "${averageSleep}",
-                  );
-                }
-              },
-            ),
-            SizedBox(height: 20),
-            FutureBuilder<String>(
-              future: FirebaseFunctions.fetchAverageSleep(user.uid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  String averageSleep = snapshot.data ?? '';
-                  return MetricTile(
-                    label: "Average sleep amount",
-                    value: "${averageSleep}",
-                  );
-                }
-              },
-            ),
-            SizedBox(height: 20),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SleepTrendsPage()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 253, 253, 252),
-                      onPrimary: Color(0xFF26547C),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Color(0xFF26547C), width: 1),
-                      ),
-                    ),
-                    child: Text("Sleep Analysis"),
-                  ),
-                  SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LogSleepPage()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 253, 253, 252),
-                      onPrimary: Color(0xFF26547C),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side: BorderSide(color: Color(0xFF26547C), width: 1),
-                      ),
-                    ),
-                    child: Text("Track Sleep"),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Sleep",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.primaryColorLight),
               ),
-            ),
-            SizedBox(height: 40),
-            Text(
-              "Water Intake",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: currentTheme.primaryColorLight),
-            ),
-            SizedBox(height: 20),
-            FutureBuilder<double>(
-              future: FirebaseFunctions.fetchWaterIntakeSumLastWeek(user.uid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  double waterIntakeLastWeek = snapshot.data ?? 0.0;
-                  return MetricTile(
-                    label: "Water Intake for the Week",
-                    value: "${waterIntakeLastWeek.toStringAsFixed(2)} litres",
-                  );
-                }
-              },
-            ),
-            SizedBox(height: 20),
-            FutureBuilder<double>(
-              future: FirebaseFunctions.fetchAverageWaterIntake(user.uid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  double averageWaterIntake = snapshot.data ?? 0.0;
-                  return MetricTile(
-                    label: "Average Water Intake",
-                    value: "${averageWaterIntake.toStringAsFixed(2)} litres",
-                  );
-                }
-              },
-            ),
-            SizedBox(height: 20),
-            HydrationTipsWidget(),
-            SizedBox(height: 20),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LogWaterIntakePage()),
-                  );
+              SizedBox(height: 20),
+              FutureBuilder<String>(
+                future: FirebaseFunctions.fetchSleepSumLastWeek(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    String averageSleep = snapshot.data ?? '';
+                    return MetricTile(
+                      label: "Sleep for the week",
+                      value: "${averageSleep}",
+                    );
+                  }
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 253, 253, 252),
-                  onPrimary: Color(0xFF26547C),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: Color(0xFF26547C), width: 1),
-                  ),
-                ),
-                child: Text("Log Water Intake"),
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              FutureBuilder<String>(
+                future: FirebaseFunctions.fetchAverageSleep(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    String averageSleep = snapshot.data ?? '';
+                    return MetricTile(
+                      label: "Average sleep amount",
+                      value: "${averageSleep}",
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SleepTrendsPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 253, 253, 252),
+                        onPrimary: Color(0xFF26547C),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Color(0xFF26547C), width: 1),
+                        ),
+                      ),
+                      child: Text("Sleep Analysis"),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LogSleepPage()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromARGB(255, 253, 253, 252),
+                        onPrimary: Color(0xFF26547C),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(color: Color(0xFF26547C), width: 1),
+                        ),
+                      ),
+                      child: Text("Track Sleep"),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 40),
+              Text(
+                "Water Intake",
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.primaryColorLight),
+              ),
+              SizedBox(height: 20),
+              FutureBuilder<double>(
+                future: FirebaseFunctions.fetchWaterIntakeSumLastWeek(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    double waterIntakeLastWeek = snapshot.data ?? 0.0;
+                    return MetricTile(
+                      label: "Water Intake for the Week",
+                      value: "${waterIntakeLastWeek.toStringAsFixed(2)} litres",
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 20),
+              FutureBuilder<double>(
+                future: FirebaseFunctions.fetchAverageWaterIntake(user.uid),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    double averageWaterIntake = snapshot.data ?? 0.0;
+                    return MetricTile(
+                      label: "Average Water Intake",
+                      value: "${averageWaterIntake.toStringAsFixed(2)} litres",
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 20),
+              HydrationTipsWidget(),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LogWaterIntakePage()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 253, 253, 252),
+                    onPrimary: Color(0xFF26547C),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(color: Color(0xFF26547C), width: 1),
+                    ),
+                  ),
+                  child: Text("Log Water Intake"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

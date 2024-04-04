@@ -106,7 +106,7 @@ class _GraphPageState extends State<GraphPage> {
                                   }).toList(),
                                 );
                               } else {
-                                return Center(child: Text('No data available'));
+                                return Center(child: Text('No data available', style: TextStyle(color: currentTheme.primaryColorLight),));
                               }
                             }
                           },

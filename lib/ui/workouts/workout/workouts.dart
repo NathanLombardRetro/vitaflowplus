@@ -51,7 +51,7 @@ class _WorkoutsPageState extends State<WorkoutsPage> {
                   final workouts = snapshot.data!;
 
                   if (workouts.isEmpty) {
-                    return Center(child: Text('No data available'));
+                    return Center(child: Text('No data available',style: TextStyle(color: currentTheme.primaryColorLight),));
                   }
                   return ListView.builder(
                     itemCount: workouts.length,

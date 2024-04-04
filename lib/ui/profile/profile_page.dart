@@ -99,7 +99,7 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
                     child: Icon(Icons.arrow_back),
                   ),
                   Text(
-                    'Add Workout',
+                    'Upload profile picture',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

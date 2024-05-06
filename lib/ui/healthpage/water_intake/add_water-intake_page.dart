@@ -29,14 +29,23 @@ class _MyLogWaterIntakeState extends State<LogWaterIntakePage> {
         'date': DateTime.now(),
         'userId': user.uid,
       });
-
-      print('Water intake logged successfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Water intake logged successfully.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => SleepWaterPage()),
       );
     } catch (e) {
-      print('Failed to log water intake: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to log water intake.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 

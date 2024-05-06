@@ -33,11 +33,21 @@ class _RegisterPageState extends State<RegisterPage> {
         'phone': _phoneNumController.text,
       });
 
-      print('User registered: ${userCredential.user!.uid}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('User registered successfully.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       FirebaseAuth.instance.signOut();
       Navigator.pop(context);
     } catch (e) {
-      print('Failed to register: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to register.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 

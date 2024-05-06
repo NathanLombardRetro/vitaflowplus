@@ -45,13 +45,23 @@ class _AddBloodSugarPageState extends State<AddBloodSugarPage> {
         'date': DateTime.now(),
       });
 
-      print('Workout added successfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Blood sugar added successfully.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => GraphPage()),
       );
     } catch (e) {
-      print('Failed to add workout: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to add blood sugar.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 

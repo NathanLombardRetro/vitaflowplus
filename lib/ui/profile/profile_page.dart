@@ -59,13 +59,23 @@ class _ImageUploadPageState extends State<ImageUploadPage> {
         });
       }
 
-      print('Picture uploaded successfully');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Picture uploaded successfully.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => Dashboard()),
       );
     } catch (e) {
-      print('Failed to upload picture: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Failed to upload picture.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 

@@ -189,24 +189,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void wrongEmailMessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text("Incorrect Email address"),
-        );
-      },
-    );
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Incorrect Email address.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
   }
 
   void wrongPasswordmessage() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text("Incorrect password"),
-        );
-      },
-    );
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Incorrect password.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
   }
 }
